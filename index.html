@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word War IELTS</title>
+    <!-- Tailwind CSS CDN for quick styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font for minimalistic pixelated look -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* Primary bright color */
+        :root {
+            --primary-bright: #00E0FF; /* Electric Cyan */
+            --dark-background: #0A0A0A;
+        }
+
+        /* Base styles */
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #000; /* Pure black for modern minimalism */
+            color: #E0E0E0; /* Light grey for subtle contrast */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+
+        .game-container {
+            background-color: var(--dark-background);
+            border: 4px solid var(--primary-bright); /* Thinner, bright border */
+            border-radius: 10px; /* Slightly less rounded for sharper feel */
+            padding: 2rem; /* Increased padding for more breathing room */
+            box-shadow:
+                0 0 25px var(--primary-bright); /* Single, strong bright glow */
+            max-width: 95%;
+            width: 100%;
+            max-width: 800px; /* Adjusted max width for slightly more compact feel */
+            text-align: center;
+            position: relative;
+            animation: pulse-border 1.8s infinite alternate ease-in-out; /* Slower, smoother pulse */
+        }
+
+        @keyframes pulse-border {
+            from {
+                border-color: var(--primary-bright);
+                box-shadow: 0 0 25px var(--primary-bright);
+            }
+            to {
+                border-color: #00FFFF; /* Slightly different cyan/aqua for pulse effect */
+                box-shadow: 0 0 35px #00FFFF;
+            }
+        }
+
+        h1 {
+            color: var(--primary-bright); /* Title in bright color */
+            text-shadow: none; /* Removed heavy shadow for minimalism */
+            font-size: 2.2rem;
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+        }
+        @media (min-width: 640px) {
+            h1 { font-size: 2.8rem; }
+        }
+        @media (min-width: 768px) {
+            h1 { font-size: 3.2rem; }
+        }
+
+        h2 {
+            color: var(--primary-bright);
+            text-shadow: none; /* Removed heavy shadow for minimalism */
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        @media (min-width: 640px) {
+            h2 { font-size: 2rem; }
+        }
+        @media (min-width: 768px) {
+            h2 { font-size: 2.2rem; }
+        }
+
+        button {
+            background-color: transparent; /* Transparent background */
+            color: var(--primary-bright); /* Text in bright color */
+            padding: 0.9rem 1.4rem;
+            border: 2px solid var(--primary-bright); /* Thinner bright border */
+            border-radius: 8px; /* Slightly less rounded */
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out; /* Smoother transition */
+            text-shadow: none; /* Removed shadow */
+            box-shadow: 0 3px #0080A0; /* Subtle dark shadow for depth */
+            outline: none;
+            position: relative;
+            top: 0;
+            left: 0;
+            letter-spacing: 0.5px; /* Slightly tighter spacing */
+        }
+
+        button:active {
+            top: 3px;
+            box-shadow: none;
+        }
+
+        @media (min-width: 640px) {
+            button { padding: 1rem 1.8rem; font-size: 1.05rem; }
+        }
+        @media (min-width: 768px) {
+            button { padding: 1.1rem 2rem; font-size: 1.15rem; }
+        }
+
+        button:hover {
+            background-color: var(--primary-bright); /* Fill with bright color on hover */
+            color: #000; /* Black text on hover */
+            border-color: var(--primary-bright);
+            box-shadow: 0 5px #00B0D0; /* Slightly stronger shadow on hover */
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Game specific styles */
+        #score-display, #wrong-attempts-display {
+            font-size: 1.4rem;
+            margin: 0.6rem 0;
+            color: #FFF; /* White for score */
+            text-shadow: none;
+        }
+        @media (min-width: 640px) {
+            #score-display, #wrong-attempts-display { font-size: 1.6rem; }
+        }
+
+        #wrong-attempts-display {
+            color: #FF4500; /* Orange-red for wrong attempts */
+        }
+
+        #word-display {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #FFFFFF; /* White for the word */
+            margin-bottom: 2rem;
+            text-shadow: 0 0 12px #4B0082, 0 0 25px #4B0082; /* Dark purple glow */
+            word-wrap: break-word;
+            transition: color 0.1s ease-in-out, text-shadow 0.1s ease-in-out;
+            min-height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+        }
+        @media (max-width: 480px) {
+            #word-display { font-size: 1.8rem; min-height: 3.5rem; }
+        }
+        @media (min-width: 640px) {
+            #word-display { font-size: 2.8rem; min-height: 5rem; }
+        }
+        @media (min-width: 768px) {
+            #word-display { font-size: 3.2rem; min-height: 5rem; }
+        }
+
+
+        #word-display.correct-feedback {
+            color: #00FF00; /* Bright green */
+            text-shadow: 0 0 15px #00FF00, 0 0 30px #00FF00;
+        }
+
+        #word-display.wrong-feedback {
+            color: #FF0000; /* Bright red */
+            text-shadow: 0 0 15px #FF0000, 0 0 30px #FF0000;
+        }
+
+        .choices-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8rem; /* Reduced gap for a tighter, cleaner look */
+            margin-top: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .choices-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+        }
+
+        .choice-button {
+            background-color: var(--dark-background); /* Dark background for choices */
+            border: 2px solid var(--primary-bright); /* Bright border */
+            color: #FFFFFF; /* White text for choices */
+            padding: 0.9rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            text-align: left;
+            word-wrap: break-word;
+            min-height: 4.5rem; /* Slightly reduced height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none; /* Removed choice button shadow */
+        }
+        @media (min-width: 640px) {
+            .choice-button { font-size: 0.95rem; padding: 1rem; min-height: 5rem; }
+        }
+        @media (min-width: 768px) {
+            .choice-button { font-size: 1rem; padding: 1.1rem; min-height: 5.5rem; }
+        }
+
+        .choice-button:hover {
+            background-color: var(--primary-bright); /* Fill with bright color on hover */
+            border-color: var(--primary-bright);
+            color: #000; /* Black text on hover */
+            box-shadow: none;
+        }
+
+        #leaderboard-table {
+            width: 100%;
+            margin-top: 1.5rem;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        @media (min-width: 640px) {
+            #leaderboard-table { font-size: 1rem; }
+        }
+        @media (min-width: 768px) {
+            #leaderboard-table { font-size: 1.1rem; }
+        }
+
+        #leaderboard-table th, #leaderboard-table td {
+            border: 1px solid #333; /* Subtle dark grey borders */
+            padding: 0.6rem;
+            text-align: left;
+            color: #E0E0E0;
+        }
+        @media (min-width: 640px) {
+            #leaderboard-table th, #leaderboard-table td { padding: 0.8rem; }
+        }
+
+        #leaderboard-table th {
+            background-color: var(--primary-bright); /* Header in bright color */
+            color: #000; /* Black text for header */
+            text-shadow: none;
+        }
+
+        #leaderboard-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05); /* Very subtle lighter row */
+        }
+
+        input[type="text"] {
+            background-color: #1A1A1A;
+            border: 1px solid #555; /* Softer border */
+            color: #FFF; /* White text */
+            font-family: 'Press Start 2P', cursive;
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            width: calc(100% - 1.2rem);
+            max-width: 300px;
+            margin-top: 0.8rem;
+            text-align: center;
+        }
+        @media (min-width: 640px) {
+            input[type="text"] { padding: 0.8rem; font-size: 1rem; }
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-bright);
+            box-shadow: 0 0 8px var(--primary-bright);
+        }
+
+        /* Custom Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px); /* Softer blur */
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--dark-background);
+            border: 4px solid var(--primary-bright);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 0 30px var(--primary-bright);
+            max-width: 85%;
+            width: 500px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: #E0E0E0;
+            position: relative;
+            animation: modal-pop-in 0.3s ease-out;
+        }
+        @media (min-width: 640px) {
+            .modal-content { font-size: 1.1rem; padding: 2.5rem; }
+        }
+
+        .modal-content h3 {
+            color: var(--primary-bright);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            text-shadow: none;
+        }
+        @media (min-width: 640px) {
+            .modal-content h3 { font-size: 1.8rem; }
+        }
+
+        .modal-content button {
+            background-color: var(--primary-bright);
+            border: none;
+            color: #000; /* Black text on modal button */
+            margin-top: 1.5rem;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            box-shadow: 0 4px #0080A0;
+        }
+        @media (min-width: 640px) {
+            .modal-content button { padding: 0.8rem 1.5rem; font-size: 1.1rem; }
+        }
+
+        .modal-content button:hover {
+            background-color: #00FFFF;
+            color: #000;
+        }
+
+        /* Responsive adjustments for overall layout */
+        @media (max-width: 639px) {
+            .game-container {
+                padding: 1rem;
+                border-width: 3px;
+                border-radius: 8px;
+                box-shadow: 0 0 15px var(--primary-bright);
+            }
+            button {
+                padding: 0.7rem 1rem;
+                font-size: 0.85rem;
+                border-width: 2px;
+                border-radius: 6px;
+                box-shadow: 0 3px #0080A0;
+            }
+            .choice-button {
+                padding: 0.8rem;
+                min-height: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music Placeholder -->
+    <audio id="background-music" loop autoplay>
+        <!-- IMPORTANT: Ensure this path is correct relative to your index.html file on GitHub! -->
+        <!-- If "Run As Fast As You Can.mp3" is in the same folder as index.html, this is correct. -->
+        <source src="Run As Fast As You Can.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Sound Effects Placeholders -->
+    <audio id="correct-sound">
+        <!-- Replace with your public URL or relative path -->
+        <source src="correct.mp3" type="audio/mpeg">
+        Your browser does not conduct the audio element.
+    </audio>
+    <audio id="wrong-sound">
+        <!-- New error audio file added -->
+        <source src="Error - Sound Effect Non copyright sound effe....mp3" type="audio/mpeg">
+        Your browser does not conduct the audio element.
+    </audio>
+
+    <div class="game-container">
+        <!-- Main Menu Screen -->
+        <div id="main-menu" class="screen active">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl">Word War IELTS</h1>
+            <p class="text-sm sm:text-base md:text-lg mb-8">Master your IELTS vocabulary!</p>
+            <div class="flex flex-col space-y-4 items-center w-full">
+                <button id="play-solo-button" class="text-base sm:text-lg md:text-xl w-full max-w-xs">Play Game</button>
+                <button id="show-leaderboard-main" class="text-base sm:text-lg md:text-xl w-full max-w-xs">Leaderboard</button>
+                <button id="toggle-music-button" class="text-base sm:text-lg md:text-xl w-full max-w-xs">Toggle Music</button>
+            </div>
+        </div>
+
+        <!-- Game Screen (Solo) -->
+        <div id="game-screen" class="screen">
+            <div class="flex justify-between items-center mb-6">
+                <div id="score-display" class="text-lg sm:text-xl">Score: 0</div>
+                <div id="wrong-attempts-display" class="text-lg sm:text-xl">Wrong: 0/3</div>
+            </div>
+            <div id="word-display" class="text-2xl sm:text-3xl md:text-4xl mb-8"></div>
+            <div id="choices-container" class="choices-grid">
+                <!-- Choice buttons will be injected here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="screen">
+            <h2 class="text-xl sm:text-2xl md:text-3xl">GAME OVER!</h2>
+            <p class="text-lg mt-4 mb-4">Your final score: <span id="final-score" class="font-bold text-yellow-400">0</span></p>
+            <p class="text-md mb-2">Enter your name for the Leaderboard:</p>
+            <input type="text" id="player-name-input" placeholder="Your Name" class="text-sm sm:text-base">
+            <button id="save-score-button" class="text-sm sm:text-base mt-4">Save Score</button>
+            <button id="play-again-button" class="text-sm sm:text-base">Play Again</button>
+            <button id="main-menu-from-gameover" class="text-sm sm:text-base">Main Menu</button>
+        </div>
+
+        <!-- Leaderboard Screen -->
+        <div id="leaderboard-screen" class="screen">
+            <h2 class="text-xl sm:text-2xl md:text-3xl">Global Leaderboard</h2>
+            <div id="leaderboard-loading" class="text-xl text-yellow-400 my-4">Loading Leaderboard...</div>
+            <table id="leaderboard-table" class="mx-auto text-sm sm:text-base">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <!-- Leaderboard entries will be injected here by JavaScript -->
+                </tbody>
+            </table>
+            <button id="download-leaderboard-button" class="text-sm sm:text-base mt-8">Download Leaderboard</button>
+            <button id="main-menu-from-leaderboard" class="text-sm sm:text-base mt-4">Main Menu</button>
+        </div>
+    </div>
+
+    <!-- Custom Modal for Alerts -->
+    <div id="custom-modal-overlay" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="modal-title" class="text-xl sm:text-2xl">Attention!</h3>
+            <p id="modal-message" class="text-base sm:text-lg"></p>
+            <button id="modal-close-button" class="text-sm sm:text-base">OK</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD87zENDyJujpngR6lJgJIPEPUTCtvY8Fk",
+            authDomain: "wordwarielts.firebaseapp.com",
+            projectId: "wordwarielts",
+            storageBucket: "wordwarielts.firebasestorage.app",
+            messagingSenderId: "816642482683",
+            appId: "1:816642482683:web:fabcb65866c3534ec16b5e",
+            measurementId: "G-HE978D9G4H"
+        };
+
+        // We use the projectId for the artifacts collection path. This ensures it's unique to your project.
+        const appIdForCollectionPath = firebaseConfig.projectId;
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const analytics = getAnalytics(app);
+
+        // Expose Firebase objects and functions to the global window object
+        window.firebaseInitialized = false;
+        window.currentUserId = null;
+        window.db = db;
+        window.auth = auth;
+        window.appId = appIdForCollectionPath; // Use the projectId for the collection path
+        window.addDoc = addDoc;
+        window.collection = collection;
+        window.query = query;
+        window.orderBy = orderBy;
+        window.onSnapshot = onSnapshot;
+        window.serverTimestamp = serverTimestamp;
+
+        // Authenticate user when Firebase is ready
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                window.currentUserId = user.uid;
+                console.log("Firebase Auth State Changed: User signed in:", user.uid);
+            } else {
+                console.log("Firebase Auth State Changed: No user signed in. Attempting anonymous sign-in...");
+                try {
+                    // Try to sign in anonymously if not already signed in
+                    await signInAnonymously(auth);
+                    window.currentUserId = auth.currentUser.uid;
+                    console.log("Firebase: Signed in anonymously. User ID:", window.currentUserId);
+                } catch (error) {
+                    console.error("Firebase Auth Error during anonymous sign-in:", error);
+                    window.showCustomModal("Auth Error", "Could not sign in for leaderboard. Please try refreshing. Check console for details.");
+                }
+            }
+            window.firebaseInitialized = true; // Mark Firebase as ready
+            console.log("Firebase: Initialization complete. firebaseInitialized =", window.firebaseInitialized, "currentUserId =", window.currentUserId);
+
+            // Trigger loading of global leaderboard data after Firebase is initialized and user is authenticated
+            if (document.getElementById('leaderboard-screen').classList.contains('active') || document.getElementById('main-menu').classList.contains('active')) {
+                window.loadGlobalLeaderboard();
+            }
+        });
+    </script>
+
+
+    <script>
+        // Game Data: IELTS Words and Definitions (approximately 1000-2000 words)
+        // Truncated to 10 words as per user request
+        const words = [
+            {
+                word: "Abandon",
+                definition: "To leave a place, thing, or person, usually for ever.",
+                options: [
+                    "To leave a place, thing, or person, usually for ever.",
+                    "To hold onto tightly.",
+                    "To maintain and keep.",
+                    "To begin something new."
+                ]
+            },
+            {
+                word: "Abstract",
+                definition: "Existing as an idea but not as a tangible object.",
+                options: [
+                    "Existing as an idea but not as a tangible object.",
+                    "Having a physical form.",
+                    "Easy to understand.",
+                    "Concrete and specific."
+                ]
+            },
+            {
+                word: "Academic",
+                definition: "Relating to education and scholarship.",
+                options: [
+                    "Relating to education and scholarship.",
+                    "Related to practical skills.",
+                    "Focused on physical activities.",
+                    "Connected to business."
+                ]
+            },
+            {
+                word: "Access",
+                definition: "The right or opportunity to use or benefit from something.",
+                options: [
+                    "The right or opportunity to use or benefit from something.",
+                    "To block or prevent entry.",
+                    "A secret pathway.",
+                    "To limit availability."
+                ]
+            },
+            {
+                word: "Accommodate",
+                definition: "To provide lodging or sufficient space for.",
+                options: [
+                    "To provide lodging or sufficient space for.",
+                    "To make something smaller.",
+                    "To refuse entry.",
+                    "To remove from a place."
+                ]
+            },
+            {
+                word: "Accompany",
+                definition: "To go somewhere with someone as a companion or escort.",
+                options: [
+                    "To go somewhere with someone as a companion or escort.",
+                    "To leave someone alone.",
+                    "To send someone away.",
+                    "To move independently."
+                ]
+            },
+            {
+                word: "Accumulate",
+                definition: "To gather or acquire an increasing number or quantity of.",
+                options: [
+                    "To gather or acquire an increasing number or quantity of.",
+                    "To decrease rapidly.",
+                    "To distribute evenly.",
+                    "To separate into parts."
+                ]
+            },
+            {
+                word: "Accurate",
+                definition: "Correct in all details; exact.",
+                options: [
+                    "Correct in all details; exact.",
+                    "Containing errors.",
+                    "Approximately correct.",
+                    "Vague and unclear."
+                ]
+            },
+            {
+                word: "Achieve",
+                definition: "To successfully bring about or reach (a desired objective or result) by effort, skill, or courage.",
+                options: [
+                    "To successfully bring about or reach (a desired objective or result) by effort, skill, or courage.",
+                    "To give up easily.",
+                    "To fail at a task.",
+                    "To avoid responsibility."
+                ]
+            },
+            {
+                word: "Acknowledge",
+                definition: "To accept or admit the existence or truth of.",
+                options: [
+                    "To accept or admit the existence or truth of.",
+                    "To deny or dispute.",
+                    "To ignore completely.",
+                    "To question suspiciously."
+                ]
+            }
+        ];
+
+        // Global Game State
+        let currentScore = 0;
+        let wrongAttempts = 0;
+        const maxWrongAttempts = 3;
+        let usedWords = new Set();
+        let currentWord = null;
+        let isMusicPlaying = true;
+        let playerUserId = 'anonymous'; // Default to anonymous
+
+        // DOM Elements
+        const mainMenuScreen = document.getElementById('main-menu');
+        const gameScreen = document.getElementById('game-screen');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const leaderboardScreen = document.getElementById('leaderboard-screen');
+
+        const playSoloButton = document.getElementById('play-solo-button');
+        const showLeaderboardMainMenuButton = document.getElementById('show-leaderboard-main');
+        const toggleMusicButton = document.getElementById('toggle-music-button');
+
+        const scoreDisplay = document.getElementById('score-display');
+        const wrongAttemptsDisplay = document.getElementById('wrong-attempts-display');
+        const wordDisplay = document.getElementById('word-display');
+        const choicesContainer = document.getElementById('choices-container');
+
+        const finalScoreDisplay = document.getElementById('final-score');
+        const playerNameInput = document.getElementById('player-name-input');
+        const saveScoreButton = document.getElementById('save-score-button');
+        const playAgainButton = document.getElementById('play-again-button');
+        const mainMenuFromGameOverButton = document.getElementById('main-menu-from-gameover');
+
+        const leaderboardBody = document.getElementById('leaderboard-body');
+        const leaderboardLoading = document.getElementById('leaderboard-loading');
+        const downloadLeaderboardButton = document.getElementById('download-leaderboard-button');
+        const mainMenuFromLeaderboardButton = document.getElementById('main-menu-from-leaderboard');
+
+        const backgroundMusic = document.getElementById('background-music');
+        const correctSound = document.getElementById('correct-sound');
+        const wrongSound = document.getElementById('wrong-sound');
+
+        // Custom Modal Elements
+        const customModalOverlay = document.getElementById('custom-modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseButton = document.getElementById('modal-close-button');
+
+
+        // --- Utility Functions ---
+
+        /**
+         * Shuffles an array randomly.
+         * @param {Array} array The array to shuffle.
+         * @returns {Array} The shuffled array.
+         */
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        /**
+         * Displays a custom modal with a given title and message.
+         * @param {string} title The title of the modal.
+         * @param {string} message The message content of the modal.
+         */
+        window.showCustomModal = function(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            customModalOverlay.classList.remove('hidden');
+        };
+
+        /**
+         * Hides the custom modal.
+         */
+        function hideCustomModal() {
+            customModalOverlay.classList.add('hidden');
+        }
+
+        /**
+         * Plays a sound effect.
+         * @param {HTMLAudioElement} soundElement The audio element to play.
+         */
+        function playSound(soundElement) {
+            if (soundElement) {
+                soundElement.currentTime = 0; // Rewind to start
+                soundElement.play().catch(e => console.error("Error playing sound:", e));
+            }
+        }
+
+        /**
+         * Switches between game screens.
+         * @param {HTMLElement} screenToShow The screen element to make active.
+         */
+        function showScreen(screenToShow) {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => screen.classList.remove('active'));
+            screenToShow.classList.add('active');
+        }
+
+        // --- Game Logic ---
+
+        /**
+         * Resets game state and starts a new game.
+         */
+        function startGame() {
+            currentScore = 0;
+            wrongAttempts = 0;
+            usedWords.clear();
+            scoreDisplay.textContent = `Score: ${currentScore}`;
+            wrongAttemptsDisplay.textContent = `Wrong: ${wrongAttempts}/${maxWrongAttempts}`;
+            playerUserId = window.currentUserId || crypto.randomUUID(); // Ensure userId is set
+            showScreen(gameScreen);
+            nextWord();
+        }
+
+        /**
+         * Fetches a new random word, ensuring it hasn't been used recently.
+         * If all words are used, resets and shuffles.
+         */
+        function nextWord() {
+            if (usedWords.size === words.length) {
+                showCustomModal("Game Complete!", "You've gone through all available words! Restarting word list.");
+                usedWords.clear(); // Reset if all words have been used
+            }
+
+            let availableWords = words.filter(wordObj => !usedWords.has(wordObj.word));
+            if (availableWords.length === 0) {
+                 // This case should ideally be covered by the above check, but as a fallback
+                showCustomModal("Error", "No words available. Please reload the game.");
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableWords.length);
+            currentWord = availableWords[randomIndex];
+            usedWords.add(currentWord.word); // Mark as used
+
+            wordDisplay.textContent = currentWord.word;
+            wordDisplay.classList.remove('correct-feedback', 'wrong-feedback');
+            displayChoices(currentWord);
+        }
+
+        /**
+         * Displays the definition choices for the current word.
+         * @param {Object} wordObj The current word object.
+         */
+        function displayChoices(wordObj) {
+            choicesContainer.innerHTML = ''; // Clear previous choices
+
+            // Create an array of options including the correct one
+            const allOptions = [...wordObj.options];
+
+            // Shuffle the options to randomize button order
+            shuffleArray(allOptions);
+
+            allOptions.forEach(optionText => {
+                const button = document.createElement('button');
+                button.classList.add('choice-button', 'w-full');
+                button.textContent = optionText;
+                button.addEventListener('click', () => checkAnswer(optionText, wordObj.definition));
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        /**
+         * Checks if the selected answer is correct.
+         * @param {string} selectedOption The definition selected by the player.
+         * @param {string} correctDefinition The correct definition for the word.
+         */
+        function checkAnswer(selectedOption, correctDefinition) {
+            // Temporarily disable buttons to prevent multiple clicks
+            const choiceButtons = choicesContainer.querySelectorAll('.choice-button');
+            choiceButtons.forEach(button => button.disabled = true);
+
+            // Visual feedback
+            if (selectedOption === correctDefinition) {
+                currentScore += 10; // Increase score
+                scoreDisplay.textContent = `Score: ${currentScore}`;
+                wordDisplay.classList.add('correct-feedback');
+                playSound(correctSound);
+            } else {
+                wrongAttempts++;
+                wrongAttemptsDisplay.textContent = `Wrong: ${wrongAttempts}/${maxWrongAttempts}`;
+                wordDisplay.classList.add('wrong-feedback');
+                playSound(wrongSound);
+            }
+
+            // Wait a moment before moving to the next word or ending the game
+            setTimeout(() => {
+                // Re-enable buttons before next word, or if game over, they remain disabled
+                choiceButtons.forEach(button => button.disabled = false);
+
+                if (wrongAttempts >= maxWrongAttempts) {
+                    endGame();
+                } else {
+                    nextWord();
+                }
+            }, 700); // Short delay for feedback
+        }
+
+        /**
+         * Ends the game and transitions to the game over screen.
+         */
+        function endGame() {
+            finalScoreDisplay.textContent = currentScore;
+            showScreen(gameOverScreen);
+            playerNameInput.value = ''; // Clear input for new entry
+        }
+
+        // --- Leaderboard Functions (Firebase Integration) ---
+
+        /**
+         * Saves the player's score to Firestore.
+         */
+        async function saveScore() {
+            if (!window.firebaseInitialized) {
+                window.showCustomModal("Firebase Not Ready", "Please wait, Firebase is still initializing. Try again in a moment.");
+                return;
+            }
+
+            const playerName = playerNameInput.value.trim();
+            if (!playerName) {
+                window.showCustomModal("Error", "Please enter your name to save your score!");
+                return;
+            }
+
+            try {
+                // Determine the collection path based on whether it's a Canvas environment or local
+                const scoresCollectionPath = `/artifacts/${window.appId}/public/data/leaderboard-scores`;
+                const scoresCollectionRef = window.collection(window.db, scoresCollectionPath);
+
+                await window.addDoc(scoresCollectionRef, {
+                    name: playerName,
+                    score: currentScore,
+                    timestamp: window.serverTimestamp(),
+                    userId: window.currentUserId
+                });
+                window.showCustomModal("Score Saved!", "Your score has been added to the leaderboard!");
+                console.log("Score saved successfully!");
+                showLeaderboard(); // Show leaderboard after saving
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                window.showCustomModal("Error", "Failed to save score. Please try again. Check console for details.");
+            }
+        }
+
+        /**
+         * Fetches and displays the global leaderboard from Firestore.
+         */
+        window.loadGlobalLeaderboard = function() {
+            if (!window.firebaseInitialized) {
+                // Firebase not ready, show loading message and return
+                leaderboardLoading.classList.remove('hidden');
+                leaderboardBody.innerHTML = '';
+                return;
+            }
+
+            leaderboardLoading.classList.remove('hidden'); // Show loading
+            leaderboardBody.innerHTML = ''; // Clear existing entries
+
+            try {
+                const scoresCollectionPath = `/artifacts/${window.appId}/public/data/leaderboard-scores`;
+                const scoresCollectionRef = window.collection(window.db, scoresCollectionPath);
+                const q = window.query(scoresCollectionRef, window.orderBy("score", "desc")); // Order by score descending
+
+                // Use onSnapshot for real-time updates
+                window.onSnapshot(q, (snapshot) => {
+                    leaderboardLoading.classList.add('hidden'); // Hide loading once data starts coming
+                    leaderboardBody.innerHTML = ''; // Clear before populating
+                    let rank = 1;
+                    snapshot.forEach((doc) => {
+                        const scoreData = doc.data();
+                        const row = leaderboardBody.insertRow();
+                        row.insertCell(0).textContent = rank++;
+                        row.insertCell(1).textContent = scoreData.name;
+                        row.insertCell(2).textContent = scoreData.score;
+                    });
+
+                    if (snapshot.empty) {
+                        const row = leaderboardBody.insertRow();
+                        const cell = row.insertCell(0);
+                        cell.colSpan = 3;
+                        cell.textContent = "No scores yet! Be the first!";
+                        cell.classList.add('text-center', 'py-4');
+                    }
+                }, (error) => {
+                    console.error("Error fetching leaderboard: ", error);
+                    leaderboardLoading.classList.add('hidden');
+                    window.showCustomModal("Error", "Failed to load leaderboard. Check console for details.");
+                });
+            } catch (e) {
+                console.error("Error setting up leaderboard snapshot: ", e);
+                leaderboardLoading.classList.add('hidden');
+                window.showCustomModal("Error", "Leaderboard system not fully initialized. Try refreshing.");
+            }
+        };
+
+
+        /**
+         * Displays the leaderboard screen and loads data.
+         */
+        function showLeaderboard() {
+            showScreen(leaderboardScreen);
+            window.loadGlobalLeaderboard(); // Load or refresh leaderboard data
+        }
+
+        /**
+         * Downloads the leaderboard data as a CSV file.
+         */
+        function downloadLeaderboard() {
+            if (!leaderboardBody.rows.length || leaderboardBody.rows[0].cells[0].textContent === "No scores yet! Be the first!") {
+                window.showCustomModal("No Data", "Leaderboard is empty. Play a game first!");
+                return;
+            }
+
+            let csv = 'Rank,Name,Score\n';
+            for (let i = 0; i < leaderboardBody.rows.length; i++) {
+                const row = leaderboardBody.rows[i];
+                const rank = row.cells[0].textContent;
+                const name = row.cells[1].textContent;
+                const score = row.cells[2].textContent;
+                csv += `${rank},"${name}",${score}\n`;
+            }
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            if (link.download !== undefined) { // Feature detection for download attribute
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'ielts_leaderboard.csv');
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                window.showCustomModal("Download Error", "Your browser does not support direct CSV download.");
+            }
+        }
+
+
+        // --- Event Listeners ---
+
+        playSoloButton.addEventListener('click', startGame);
+        showLeaderboardMainMenuButton.addEventListener('click', showLeaderboard);
+        toggleMusicButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play().catch(e => console.error("Error playing music:", e));
+                isMusicPlaying = true;
+                toggleMusicButton.textContent = 'Toggle Music';
+            } else {
+                backgroundMusic.pause();
+                isMusicPlaying = false;
+                toggleMusicButton.textContent = 'Toggle Music';
+            }
+        });
+
+        saveScoreButton.addEventListener('click', saveScore);
+        playAgainButton.addEventListener('click', startGame);
+        mainMenuFromGameOverButton.addEventListener('click', () => showScreen(mainMenuScreen));
+
+        downloadLeaderboardButton.addEventListener('click', downloadLeaderboard);
+        mainMenuFromLeaderboardButton.addEventListener('click', () => showScreen(mainMenuScreen));
+
+        modalCloseButton.addEventListener('click', hideCustomModal);
+        customModalOverlay.addEventListener('click', (event) => {
+            if (event.target === customModalOverlay) {
+                hideCustomModal();
+            }
+        });
+
+        // Initialize music state on load
+        window.addEventListener('load', () => {
+            if (isMusicPlaying) {
+                backgroundMusic.play().catch(e => {
+                    console.warn("Autoplay was prevented. User interaction required to play music.", e);
+                    // Inform user they might need to click to start music
+                    toggleMusicButton.textContent = 'Toggle Music'; // No brackets here either
+                });
+            }
+        });
+
+        // Add keyboard navigation for choice buttons
+        document.addEventListener('keydown', (event) => {
+            if (gameScreen.classList.contains('active')) {
+                const choiceButtons = Array.from(choicesContainer.querySelectorAll('.choice-button'));
+                const focusedButtonIndex = choiceButtons.findIndex(button => document.activeElement === button);
+
+                if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                    event.preventDefault(); // Prevent page scrolling
+                    if (focusedButtonIndex === -1 || focusedButtonIndex === choiceButtons.length - 1) {
+                        choiceButtons[0].focus();
+                    } else {
+                        choiceButtons[focusedButtonIndex + 1].focus();
+                    }
+                } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                    event.preventDefault(); // Prevent page scrolling
+                    if (focusedButtonIndex === -1 || focusedButtonIndex === 0) {
+                        choiceButtons[choiceButtons.length - 1].focus();
+                    } else {
+                        choiceButtons[focusedButtonIndex - 1].focus();
+                    }
+                } else if (event.key === 'Enter' && focusedButtonIndex !== -1) {
+                    event.preventDefault();
+                    choiceButtons[focusedButtonIndex].click();
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
