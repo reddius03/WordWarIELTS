@@ -1,9 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01Q45YH5J3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-01Q45YH5J3');
+    </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- Mobile optimization meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Word War IELTS">
     <title>Word War IELTS</title>
+    <link rel="icon" type="image/png" href="star.png">
     <!-- Tailwind CSS CDN for quick styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Font for minimalistic pixelated look -->
@@ -11,8 +25,8 @@
     <style>
         /* Primary bright color */
         :root {
-            --primary-bright: #00E0FF; /* Electric Cyan */
-            --dark-background: #0A0A0A;
+            --primary-bright: #00A8FF; /* Vibrant Blue for a different feel */
+            --dark-background: #0A101A; /* Deep Blue/Black */
         }
 
         /* Base styles */
@@ -21,6 +35,7 @@
             background-color: #000; /* Pure black for modern minimalism */
             color: #E0E0E0; /* Light grey for subtle contrast */
             display: flex;
+            flex-direction: column; /* Allow vertical stacking for highest scorer */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -30,19 +45,28 @@
             overflow: hidden; /* Prevent scrollbars */
         }
 
+        #background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place it behind all content */
+        }
+
         .game-container {
             background-color: var(--dark-background);
-            border: 4px solid var(--primary-bright); /* Thinner, bright border */
-            border-radius: 10px; /* Slightly less rounded for sharper feel */
-            padding: 2rem; /* Increased padding for more breathing room */
-            box-shadow:
-                0 0 25px var(--primary-bright); /* Single, strong bright glow */
+            border: 4px solid var(--primary-bright);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 0 25px var(--primary-bright);
             max-width: 95%;
             width: 100%;
-            max-width: 800px; /* Adjusted max width for slightly more compact feel */
+            max-width: 800px;
             text-align: center;
             position: relative;
-            animation: pulse-border 1.8s infinite alternate ease-in-out; /* Slower, smoother pulse */
+            animation: pulse-border 1.8s infinite alternate ease-in-out;
+            z-index: 1;
         }
 
         @keyframes pulse-border {
@@ -51,55 +75,48 @@
                 box-shadow: 0 0 25px var(--primary-bright);
             }
             to {
-                border-color: #00FFFF; /* Slightly different cyan/aqua for pulse effect */
-                box-shadow: 0 0 35px #00FFFF;
+                border-color: #4ddbff; /* Lighter blue for pulse */
+                box-shadow: 0 0 35px #4ddbff;
             }
         }
-
+        
         h1 {
-            color: var(--primary-bright); /* Title in bright color */
-            text-shadow: none; /* Removed heavy shadow for minimalism */
+            color: var(--primary-bright);
+            text-shadow: none;
             font-size: 2.2rem;
             margin-bottom: 1.2rem;
             text-transform: uppercase;
         }
-        @media (min-width: 640px) {
-            h1 { font-size: 2.8rem; }
-        }
-        @media (min-width: 768px) {
-            h1 { font-size: 3.2rem; }
-        }
+        @media (min-width: 640px) { h1 { font-size: 2.8rem; } }
+        @media (min-width: 768px) { h1 { font-size: 3.2rem; } }
 
         h2 {
             color: var(--primary-bright);
-            text-shadow: none; /* Removed heavy shadow for minimalism */
+            text-shadow: none;
             font-size: 1.8rem;
             margin-bottom: 1rem;
         }
-        @media (min-width: 640px) {
-            h2 { font-size: 2rem; }
-        }
-        @media (min-width: 768px) {
-            h2 { font-size: 2.2rem; }
-        }
+        @media (min-width: 640px) { h2 { font-size: 2rem; } }
+        @media (min-width: 768px) { h2 { font-size: 2.2rem; } }
 
         button {
-            background-color: transparent; /* Transparent background */
-            color: var(--primary-bright); /* Text in bright color */
+            background-color: transparent;
+            color: var(--primary-bright);
             padding: 0.9rem 1.4rem;
-            border: 2px solid var(--primary-bright); /* Thinner bright border */
-            border-radius: 8px; /* Slightly less rounded */
+            border: 2px solid var(--primary-bright);
+            border-radius: 8px;
             font-family: 'Press Start 2P', cursive;
             font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.2s ease-in-out; /* Smoother transition */
-            text-shadow: none; /* Removed shadow */
-            box-shadow: 0 3px #0080A0; /* Subtle dark shadow for depth */
+            transition: all 0.2s ease-in-out;
+            text-shadow: none;
+            box-shadow: 0 3px #0077B3;
             outline: none;
             position: relative;
             top: 0;
             left: 0;
-            letter-spacing: 0.5px; /* Slightly tighter spacing */
+            letter-spacing: 0.5px;
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
         }
 
         button:active {
@@ -107,49 +124,88 @@
             box-shadow: none;
         }
 
-        @media (min-width: 640px) {
-            button { padding: 1rem 1.8rem; font-size: 1.05rem; }
-        }
-        @media (min-width: 768px) {
-            button { padding: 1.1rem 2rem; font-size: 1.15rem; }
-        }
+        @media (min-width: 640px) { button { padding: 1rem 1.8rem; font-size: 1.05rem; } }
+        @media (min-width: 768px) { button { padding: 1.1rem 2rem; font-size: 1.15rem; } }
 
         button:hover {
-            background-color: var(--primary-bright); /* Fill with bright color on hover */
-            color: #000; /* Black text on hover */
+            background-color: var(--primary-bright);
             border-color: var(--primary-bright);
-            box-shadow: 0 5px #00B0D0; /* Slightly stronger shadow on hover */
+            color: #000;
+            box-shadow: 0 5px #0099E6;
+        }
+        
+        .toggle-button.active {
+            background-color: var(--primary-bright);
+            color: #000;
+            box-shadow: 0 2px #0099E6;
+        }
+        
+        #game-over-screen #save-score-button {
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border-width: 3px;
+            box-shadow: 0 5px #0077B3;
         }
 
-        .screen {
-            display: none;
+        #game-over-screen #save-score-button:active {
+            top: 5px;
+            box-shadow: none;
         }
 
-        .screen.active {
-            display: block;
+        .game-mode-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            width: 150px;
+            height: 120px;
+            font-size: 1rem;
+            line-height: 1.5;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        .game-mode-button svg {
+            width: 40px;
+            height: 40px;
+        }
+        .game-mode-button .top-text {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .game-mode-button .bottom-text {
+            flex-shrink: 0;
         }
 
-        /* Game specific styles */
-        #score-display, #wrong-attempts-display {
+        /* Screen transition styles */
+        .screen { display: none; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .screen.active { 
+            display: block; 
+            animation: fadeIn 0.4s ease-out;
+        }
+
+
+        #score-display, #wrong-attempts-display, #timer-display {
             font-size: 1.4rem;
             margin: 0.6rem 0;
-            color: #FFF; /* White for score */
+            color: #FFF;
             text-shadow: none;
         }
-        @media (min-width: 640px) {
-            #score-display, #wrong-attempts-display { font-size: 1.6rem; }
-        }
+        @media (min-width: 640px) { #score-display, #wrong-attempts-display, #timer-display { font-size: 1.6rem; } }
 
-        #wrong-attempts-display {
-            color: #FF4500; /* Orange-red for wrong attempts */
-        }
+        #wrong-attempts-display { color: #FF4500; }
 
         #word-display {
             font-size: 2.2rem;
             font-weight: bold;
-            color: #FFFFFF; /* White for the word */
+            color: #FFFFFF;
             margin-bottom: 2rem;
-            text-shadow: 0 0 12px #4B0082, 0 0 25px #4B0082; /* Dark purple glow */
+            text-shadow: 0 0 12px #005f99, 0 0 25px #005f99;
             word-wrap: break-word;
             transition: color 0.1s ease-in-out, text-shadow 0.1s ease-in-out;
             min-height: 4rem;
@@ -158,68 +214,64 @@
             justify-content: center;
             padding: 0.5rem;
         }
-        @media (max-width: 480px) {
-            #word-display { font-size: 1.8rem; min-height: 3.5rem; }
-        }
-        @media (min-width: 640px) {
-            #word-display { font-size: 2.8rem; min-height: 5rem; }
-        }
-        @media (min-width: 768px) {
-            #word-display { font-size: 3.2rem; min-height: 5rem; }
-        }
-
+        @media (max-width: 480px) { #word-display { font-size: 1.8rem; min-height: 3.5rem; } }
+        @media (min-width: 640px) { #word-display { font-size: 2.8rem; min-height: 5rem; } }
+        @media (min-width: 768px) { #word-display { font-size: 3.2rem; min-height: 5rem; } }
 
         #word-display.correct-feedback {
-            color: #00FF00; /* Bright green */
+            color: #00FF00;
             text-shadow: 0 0 15px #00FF00, 0 0 30px #00FF00;
         }
-
         #word-display.wrong-feedback {
-            color: #FF0000; /* Bright red */
+            color: #FF0000;
             text-shadow: 0 0 15px #FF0000, 0 0 30px #FF0000;
         }
 
         .choices-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 0.8rem; /* Reduced gap for a tighter, cleaner look */
+            gap: 0.8rem;
             margin-top: 1.5rem;
         }
-
-        @media (min-width: 640px) {
-            .choices-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-            }
-        }
+        @media (min-width: 640px) { .choices-grid { grid-template-columns: 1fr 1fr; gap: 1rem; } }
 
         .choice-button {
-            background-color: var(--dark-background); /* Dark background for choices */
-            border: 2px solid var(--primary-bright); /* Bright border */
-            color: #FFFFFF; /* White text for choices */
+            background-color: var(--dark-background);
+            border: 2px solid var(--primary-bright);
+            color: #FFFFFF;
             padding: 0.9rem;
             border-radius: 8px;
             font-size: 0.85rem;
-            text-align: left;
+            text-align: center;
             word-wrap: break-word;
-            min-height: 4.5rem; /* Slightly reduced height */
+            min-height: 4.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            max-height: 6.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: none; /* Removed choice button shadow */
+            box-shadow: none;
+            touch-action: manipulation;
         }
-        @media (min-width: 640px) {
-            .choice-button { font-size: 0.95rem; padding: 1rem; min-height: 5rem; }
-        }
-        @media (min-width: 768px) {
-            .choice-button { font-size: 1rem; padding: 1.1rem; min-height: 5.5rem; }
-        }
+        @media (min-width: 640px) { .choice-button { font-size: 0.95rem; padding: 1rem; min-height: 5rem; max-height: 7rem; } }
+        @media (min-width: 768px) { .choice-button { font-size: 1rem; padding: 1.1rem; min-height: 5.5rem; max-height: 7.5rem; } }
 
         .choice-button:hover {
-            background-color: var(--primary-bright); /* Fill with bright color on hover */
+            background-color: var(--primary-bright);
             border-color: var(--primary-bright);
-            color: #000; /* Black text on hover */
+            color: #000;
             box-shadow: none;
+        }
+
+        .choice-button.selected-feedback {
+            background-color: var(--primary-bright) !important;
+            color: #000 !important;
+            box-shadow: none !important;
+            top: 0 !important;
         }
 
         #leaderboard-table {
@@ -228,37 +280,35 @@
             border-collapse: collapse;
             font-size: 0.9rem;
         }
-        @media (min-width: 640px) {
-            #leaderboard-table { font-size: 1rem; }
-        }
-        @media (min-width: 768px) {
-            #leaderboard-table { font-size: 1.1rem; }
-        }
+        @media (min-width: 640px) { #leaderboard-table { font-size: 1rem; } }
+        @media (min-width: 768px) { #leaderboard-table { font-size: 1.1rem; } }
 
         #leaderboard-table th, #leaderboard-table td {
-            border: 1px solid #333; /* Subtle dark grey borders */
+            border: 1px solid #333;
             padding: 0.6rem;
             text-align: left;
             color: #E0E0E0;
         }
-        @media (min-width: 640px) {
-            #leaderboard-table th, #leaderboard-table td { padding: 0.8rem; }
-        }
+        @media (min-width: 640px) { #leaderboard-table th, #leaderboard-table td { padding: 0.8rem; } }
 
         #leaderboard-table th {
-            background-color: var(--primary-bright); /* Header in bright color */
-            color: #000; /* Black text for header */
+            background-color: var(--primary-bright);
+            color: #000;
             text-shadow: none;
         }
+        #leaderboard-table tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.05); }
 
-        #leaderboard-table tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.05); /* Very subtle lighter row */
+        .recent-score-highlight {
+            background-color: #007bff !important;
+            color: #FFF !important;
+            border: 2px solid #00FFFF !important;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.7) !important;
         }
 
         input[type="text"] {
             background-color: #1A1A1A;
-            border: 1px solid #555; /* Softer border */
-            color: #FFF; /* White text */
+            border: 1px solid #555;
+            color: #FFF;
             font-family: 'Press Start 2P', cursive;
             padding: 0.6rem;
             font-size: 0.9rem;
@@ -268,414 +318,545 @@
             margin-top: 0.8rem;
             text-align: center;
         }
-        @media (min-width: 640px) {
-            input[type="text"] { padding: 0.8rem; font-size: 1rem; }
-        }
-
+        @media (min-width: 640px) { input[type="text"] { padding: 0.8rem; font-size: 1rem; } }
         input[type="text"]:focus {
             outline: none;
             border-color: var(--primary-bright);
             box-shadow: 0 0 8px var(--primary-bright);
         }
 
-        /* Custom Modal Styles */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
             z-index: 1000;
-            backdrop-filter: blur(5px); /* Softer blur */
+            backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
         }
-
         .modal-content {
             background-color: var(--dark-background);
             border: 4px solid var(--primary-bright);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
+            border-radius: 15px; padding: 2rem; text-align: center;
             box-shadow: 0 0 30px var(--primary-bright);
-            max-width: 85%;
-            width: 500px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1rem;
-            color: #E0E0E0;
-            position: relative;
+            max-width: 85%; width: 500px;
+            font-family: 'Press Start 2P', cursive; font-size: 1rem;
+            color: #E0E0E0; position: relative;
             animation: modal-pop-in 0.3s ease-out;
         }
-        @media (min-width: 640px) {
-            .modal-content { font-size: 1.1rem; padding: 2.5rem; }
-        }
-
+        @media (min-width: 640px) { .modal-content { font-size: 1.1rem; padding: 2.5rem; } }
         .modal-content h3 {
-            color: var(--primary-bright);
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-            text-shadow: none;
+            color: var(--primary-bright); font-size: 1.6rem;
+            margin-bottom: 1rem; text-shadow: none;
         }
-        @media (min-width: 640px) {
-            .modal-content h3 { font-size: 1.8rem; }
+        @media (min-width: 640px) { .modal-content h3 { font-size: 1.8rem; } }
+        
+        #modal-buttons button {
+            background-color: var(--primary-bright); border: none;
+            color: #000; padding: 0.6rem 1.2rem;
+            font-size: 0.9rem; box-shadow: 0 4px #0077B3;
         }
-
-        .modal-content button {
-            background-color: var(--primary-bright);
-            border: none;
-            color: #000; /* Black text on modal button */
-            margin-top: 1.5rem;
-            padding: 0.6rem 1.2rem;
-            font-size: 0.9rem;
-            box-shadow: 0 4px #0080A0;
+        #modal-buttons button:hover { background-color: #4ddbff; color: #000; }
+        
+        #modal-cancel-button {
+             background-color: #555;
+             color: #fff;
+             box-shadow: 0 4px #222;
         }
-        @media (min-width: 640px) {
-            .modal-content button { padding: 0.8rem 1.5rem; font-size: 1.1rem; }
-        }
-
-        .modal-content button:hover {
-            background-color: #00FFFF;
-            color: #000;
+        #modal-cancel-button:hover {
+            background-color: #777;
         }
 
-        /* Responsive adjustments for overall layout */
+
+        /* --- Mobile Optimization Styles --- */
         @media (max-width: 639px) {
-            .game-container {
-                padding: 1rem;
-                border-width: 3px;
-                border-radius: 8px;
-                box-shadow: 0 0 15px var(--primary-bright);
-            }
-            button {
-                padding: 0.7rem 1rem;
-                font-size: 0.85rem;
-                border-width: 2px;
-                border-radius: 6px;
-                box-shadow: 0 3px #0080A0;
-            }
-            .choice-button {
-                padding: 0.8rem;
-                min-height: 4rem;
-            }
+            .game-container { padding: 1.5rem 1rem; border-width: 3px; border-radius: 8px; box-shadow: 0 0 15px var(--primary-bright); max-height: 95vh; overflow-y: auto; }
+            button { padding: 0.9rem 1rem; font-size: 0.8rem; border-width: 2px; border-radius: 6px; box-shadow: 0 3px #0077B3; }
+            .choice-button { padding: 0.8rem; min-height: 4rem; font-size: 0.8rem; }
+            #word-display { font-size: 1.6rem; min-height: 3rem; }
+            #score-display, #wrong-attempts-display { font-size: 1.2rem; }
+            #game-over-screen .flex-col > button { margin-top: 0.8rem; width: 90%; max-width: 250px; }
+            #game-over-screen input[type="text"] { margin-bottom: 1rem; }
         }
+        @media (max-width: 480px) {
+            body { padding: 0.5rem; }
+            .game-container { padding: 1rem 0.5rem; max-height: 98vh; }
+            h1 { font-size: 1.6rem; } 
+            h2 { font-size: 1.4rem; }
+            button { padding: 0.8rem; font-size: 0.75rem; }
+            .game-mode-button { width: 120px; height: 100px; font-size: 0.8rem; }
+            .choice-button { padding: 0.7rem; min-height: 3.5rem; font-size: 0.75rem; }
+            #word-display { font-size: 1.4rem; min-height: 2.5rem; }
+            #score-display, #wrong-attempts-display, #timer-display { font-size: 1.1rem; }
+        }
+        /* --- End Mobile Optimization Styles --- */
+        .text-primary-bright { color: var(--primary-bright); }
+        .final-score-color { color: #4ddbff; }
+
+        #leaderboard-screen { max-height: 500px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--primary-bright) var(--dark-background); }
+        #leaderboard-screen::-webkit-scrollbar { width: 8px; }
+        #leaderboard-screen::-webkit-scrollbar-track { background: var(--dark-background); border-radius: 10px; }
+        #leaderboard-screen::-webkit-scrollbar-thumb { background-color: var(--primary-bright); border-radius: 10px; border: 2px solid var(--dark-background); }
+        #leaderboard-screen::-webkit-scrollbar-thumb:hover { background-color: #4ddbff; }
+        .stats-item { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1rem; margin-bottom: 0.5rem; background-color: #1A1A1A; border: 1px solid var(--primary-bright); border-radius: 8px; font-size: 1rem; }
+        .stats-item span:first-child { color: var(--primary-bright); }
+        .stats-item span:last-child { color: #FFF; font-weight: bold; }
+        .stats-icon { margin-right: 0.8rem; }
+        .chess-icon::before { content: "\2655"; font-size: 1.2em; vertical-align: middle; margin-right: 5px; }
     </style>
 </head>
 <body>
-    <!-- Background Music Placeholder -->
-    <audio id="background-music" loop autoplay>
-        <!-- IMPORTANT: Ensure this path is correct relative to your index.html file on GitHub! -->
-        <!-- If "Run As Fast As You Can.mp3" is in the same folder as index.html, this is correct. -->
-        <source src="Run As Fast As You Can.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <canvas id="background-canvas"></canvas>
+    <!-- Audio Elements -->
+    <audio id="background-music" loop><source src="Run As Fast As You Can.mp3" type="audio/mpeg"></audio>
+    <audio id="correct-sound"><source src="correct.mp3" type="audio/mpeg"></audio>
+    <audio id="wrong-sound"><source src="Error - Sound Effect Non copyright sound effe....mp3" type="audio/mpeg"></audio>
 
-    <!-- Sound Effects Placeholders -->
-    <audio id="correct-sound">
-        <!-- Replace with your public URL or relative path -->
-        <source src="correct.mp3" type="audio/mpeg">
-        Your browser does not conduct the audio element.
-    </audio>
-    <audio id="wrong-sound">
-        <!-- New error audio file added -->
-        <source src="Error - Sound Effect Non copyright sound effe....mp3" type="audio/mpeg">
-        Your browser does not conduct the audio element.
-    </audio>
+    <div class="top-scorers-container text-center mb-2" style="position: relative; top: -9px;">
+        <div id="highest-scorer-overall-display" class="text-sm text-white hidden">Loading top scorer...</div>
+        <div id="untimed-highest-scorer-display" class="text-sm text-white hidden">Loading top untimed scorer...</div>
+    </div>
+
 
     <div class="game-container">
         <!-- Main Menu Screen -->
         <div id="main-menu" class="screen active">
             <h1 class="text-3xl sm:text-4xl md:text-5xl">Word War IELTS</h1>
-            <p class="text-sm sm:text-base md:text-lg mb-8">Master your IELTS vocabulary!</p>
-            <div class="flex flex-col space-y-4 items-center w-full">
-                <button id="play-solo-button" class="text-base sm:text-lg md:text-xl w-full max-w-xs">Play Game</button>
-                <button id="show-leaderboard-main" class="text-base sm:text-lg md:text-xl w-full max-w-xs">Leaderboard</button>
-                <button id="toggle-music-button" class="text-base sm:text-lg md:text-xl w-full max-w-xs">Toggle Music</button>
+            <p class="text-sm sm:text-base md:text-lg mb-8">Test your IELTS vocabulary skills!</p>
+            <div class="flex flex-col space-y-4 items-center w-full md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
+                <button id="play-game-button" class="text-base sm:text-lg md:text-xl w-full md:w-auto px-4 py-2">Play Game</button>
+                <button id="show-leaderboard-main" class="text-base sm:text-lg md:text-xl w-full md:w-auto px-4 py-2">Leaderboard</button>
+                <button id="show-stats-button" class="text-base sm:text-lg md:text-xl w-full md:w-auto px-4 py-2">Stats</button>
+                <button id="toggle-music-button" class="text-base sm:text-lg md:text-xl w-full md:w-auto px-4 py-2">Toggle Music</button>
             </div>
         </div>
 
-        <!-- Game Screen (Solo) -->
+        <!-- Game Mode Selection Screen -->
+        <div id="game-mode-screen" class="screen">
+            <h2 class="text-xl sm:text-2xl md:text-3xl mb-8">Select Game Mode</h2>
+            <div class="flex justify-center space-x-4 items-center w-full mt-8">
+                <button id="timed-mode-button" class="game-mode-button">
+                    <span class="top-text">60s</span>
+                    <span class="bottom-text">Rapid</span>
+                </button>
+                <button id="untimed-mode-button" class="game-mode-button">
+                     <span class="top-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+                    </span>
+                    <span class="bottom-text">Endless</span>
+                </button>
+            </div>
+            <button id="back-to-main-menu-button" class="text-sm sm:text-base mt-12">Back</button>
+        </div>
+
+        <!-- Game Screen -->
         <div id="game-screen" class="screen">
-            <div class="flex justify-between items-center mb-6">
+            <div class="flex justify-between items-center mb-4">
                 <div id="score-display" class="text-lg sm:text-xl">Score: 0</div>
                 <div id="wrong-attempts-display" class="text-lg sm:text-xl">Wrong: 0/3</div>
+                <div id="timer-display" class="text-lg sm:text-xl">Time: 60</div>
             </div>
-            <div id="word-display" class="text-2xl sm:text-3xl md:text-4xl mb-8"></div>
-            <div id="choices-container" class="choices-grid">
-                <!-- Choice buttons will be injected here by JavaScript -->
+            <!-- Visual Timer Bar -->
+            <div id="timer-bar-container" class="w-full bg-gray-800 rounded-full h-2.5 mb-4 border border-gray-600 hidden">
+                <div id="timer-bar" class="bg-cyan-400 h-full rounded-full" style="width: 100%; transition: width 0.2s linear, background-color 0.5s ease;"></div>
             </div>
+            <div id="word-display" class="text-2xl sm:text-3xl md:text-4xl my-8"></div>
+            <div id="choices-container" class="choices-grid"></div>
+            <button id="exit-game-button" class="text-sm sm:text-base mt-8">Exit</button>
         </div>
 
         <!-- Game Over Screen -->
         <div id="game-over-screen" class="screen">
             <h2 class="text-xl sm:text-2xl md:text-3xl">GAME OVER!</h2>
-            <p class="text-lg mt-4 mb-4">Your final score: <span id="final-score" class="font-bold text-yellow-400">0</span></p>
+            <p class="text-lg mt-4 mb-4">Final score: <span id="final-score" class="font-bold final-score-color">0</span></p>
             <p class="text-md mb-2">Enter your name for the Leaderboard:</p>
             <input type="text" id="player-name-input" placeholder="Your Name" class="text-sm sm:text-base">
-            <button id="save-score-button" class="text-sm sm:text-base mt-4">Save Score</button>
-            <button id="play-again-button" class="text-sm sm:text-base">Play Again</button>
-            <button id="main-menu-from-gameover" class="text-sm sm:text-base">Main Menu</button>
+            <div class="flex flex-col space-y-3 items-center w-full mt-4">
+                <button id="save-score-button" class="text-sm sm:text-base w-full max-w-xs">Save Score</button>
+                <button id="play-again-button" class="text-sm sm:text-base w-full max-w-xs">Play Again</button>
+                <button id="main-menu-from-gameover" class="text-sm sm:text-base w-full max-w-xs">Main Menu</button>
+            </div>
         </div>
 
         <!-- Leaderboard Screen -->
         <div id="leaderboard-screen" class="screen">
-            <h2 class="text-xl sm:text-2xl md:text-3xl">Global Leaderboard</h2>
-            <div id="leaderboard-loading" class="text-xl text-yellow-400 my-4">Loading Leaderboard...</div>
+            <h2 id="leaderboard-title" class="text-xl sm:text-2xl md:text-3xl">Global Leaderboard</h2>
+            <div class="flex justify-center space-x-4 my-4">
+                <button id="show-timed-leaderboard" class="toggle-button text-sm sm:text-base active">Rapid</button>
+                <button id="show-untimed-leaderboard" class="toggle-button text-sm sm:text-base">Endless</button>
+            </div>
+            <div id="leaderboard-loading" class="text-xl text-yellow-400 my-4">Loading...</div>
             <table id="leaderboard-table" class="mx-auto text-sm sm:text-base">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Name</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard-body">
-                    <!-- Leaderboard entries will be injected here by JavaScript -->
-                </tbody>
+                <thead><tr><th>Rank</th><th>Name</th><th>Score</th></tr></thead>
+                <tbody id="leaderboard-body"></tbody>
             </table>
-            <button id="download-leaderboard-button" class="text-sm sm:text-base mt-8">Download Leaderboard</button>
+            <div id="leaderboard-pagination" class="flex justify-center space-x-4 mt-8">
+                <button id="prev-page-button" class="text-sm sm:text-base">&lt; Prev</button>
+                <span id="page-info" class="text-sm sm:text-base flex items-center"></span>
+                <button id="next-page-button" class="text-sm sm:text-base">Next &gt;</button>
+            </div>
             <button id="main-menu-from-leaderboard" class="text-sm sm:text-base mt-4">Main Menu</button>
+        </div>
+
+        <!-- Stats Screen -->
+        <div id="stats-screen" class="screen">
+            <h2 class="text-xl sm:text-2xl md:text-3xl">Your Stats</h2>
+             <div class="flex justify-center space-x-4 my-4">
+                <button id="show-timed-stats" class="toggle-button text-sm sm:text-base active">Rapid</button>
+                <button id="show-untimed-stats" class="toggle-button text-sm sm:text-base">Endless</button>
+            </div>
+            <div id="stats-loading" class="text-xl text-yellow-400 my-4">Loading stats... (est. 1-3 seconds)</div>
+            <div id="stats-content" class="flex flex-col space-y-3 mt-4 hidden">
+                <div class="stats-item"><span class="stats-icon">&#x1F3C6; Highest Score:</span><span id="highest-score-stat">0</span></div>
+                <div class="stats-item"><span class="stats-icon">&#x1F4AF; Accuracy:</span><span id="accuracy-stat">N/A</span></div>
+                <div class="stats-item"><span class="stats-icon">&#x2655; Games Played:</span><span id="games-played-stat">0</span></div>
+                <div class="stats-item"><span class="stats-icon">🏆 Highest Rank:</span><span id="highest-rank-stat">N/A</span></div>
+            </div>
+            <button id="main-menu-from-stats" class="text-sm sm:text-base mt-8">Main Menu</button>
         </div>
     </div>
 
-    <!-- Custom Modal for Alerts -->
+    <!-- Modal -->
     <div id="custom-modal-overlay" class="modal-overlay hidden">
         <div class="modal-content">
-            <h3 id="modal-title" class="text-xl sm:text-2xl">Attention!</h3>
-            <p id="modal-message" class="text-base sm:text-lg"></p>
-            <button id="modal-close-button" class="text-sm sm:text-base">OK</button>
+            <h3 id="modal-title">Attention!</h3>
+            <p id="modal-message"></p>
+            <div id="modal-buttons" class="mt-6 flex justify-center space-x-4">
+                <button id="modal-cancel-button">Cancel</button>
+                <button id="modal-confirm-button">OK</button>
+            </div>
         </div>
     </div>
+
 
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, getDoc, setDoc, updateDoc, increment, deleteField, where, limit, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyD87zENDyJujpngR6lJgJIPEPUTCtvY8Fk",
-            authDomain: "wordwarielts.firebaseapp.com",
-            projectId: "wordwarielts",
-            storageBucket: "wordwarielts.firebasestorage.app",
-            messagingSenderId: "816642482683",
-            appId: "1:816642482683:web:fabcb65866c3534ec16b5e",
-            measurementId: "G-HE978D9G4H"
+          apiKey: "AIzaSyD87zENDyJujpngR6lJgJIPEPUTCtvY8Fk",
+          authDomain: "wordwarielts.firebaseapp.com",
+          projectId: "wordwarielts",
+          storageBucket: "wordwarielts.appspot.com",
+          messagingSenderId: "816642482683",
+          appId: "1:816642482683:web:2a0c078d7310e855c16b5e",
+          measurementId: "G-01Q45YH5J3"
         };
 
-        // We use the projectId for the artifacts collection path. This ensures it's unique to your project.
-        const appIdForCollectionPath = firebaseConfig.projectId;
-
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-        const analytics = getAnalytics(app);
 
-        // Expose Firebase objects and functions to the global window object
         window.firebaseInitialized = false;
         window.currentUserId = null;
         window.db = db;
         window.auth = auth;
-        window.appId = appIdForCollectionPath; // Use the projectId for the collection path
+        window.appId = firebaseConfig.projectId;
         window.addDoc = addDoc;
         window.collection = collection;
         window.query = query;
         window.orderBy = orderBy;
         window.onSnapshot = onSnapshot;
         window.serverTimestamp = serverTimestamp;
+        window.doc = doc;
+        window.getDoc = getDoc;
+        window.getDocs = getDocs;
+        window.setDoc = setDoc;
+        window.updateDoc = updateDoc;
+        window.increment = increment;
+        window.deleteField = deleteField;
+        window.where = where;
+        window.limit = limit;
 
-        // Authenticate user when Firebase is ready
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 window.currentUserId = user.uid;
-                console.log("Firebase Auth State Changed: User signed in:", user.uid);
             } else {
-                console.log("Firebase Auth State Changed: No user signed in. Attempting anonymous sign-in...");
                 try {
-                    // Try to sign in anonymously if not already signed in
                     await signInAnonymously(auth);
                     window.currentUserId = auth.currentUser.uid;
-                    console.log("Firebase: Signed in anonymously. User ID:", window.currentUserId);
                 } catch (error) {
-                    console.error("Firebase Auth Error during anonymous sign-in:", error);
-                    window.showCustomModal("Auth Error", "Could not sign in for leaderboard. Please try refreshing. Check console for details.");
+                    console.error("Anonymous sign-in error:", error);
+                    window.showCustomModal("Auth Error", "Could not sign in for leaderboard.");
                 }
             }
-            window.firebaseInitialized = true; // Mark Firebase as ready
-            console.log("Firebase: Initialization complete. firebaseInitialized =", window.firebaseInitialized, "currentUserId =", window.currentUserId);
-
-            // Trigger loading of global leaderboard data after Firebase is initialized and user is authenticated
-            if (document.getElementById('leaderboard-screen').classList.contains('active') || document.getElementById('main-menu').classList.contains('active')) {
-                window.loadGlobalLeaderboard();
+            window.firebaseInitialized = true;
+            if (document.getElementById('main-menu').classList.contains('active')) {
+                listenForLeaderboardChanges();
+                listenForUserStatsChanges();
             }
         });
     </script>
 
-
     <script>
-        // Game Data: IELTS Words and Definitions (approximately 1000-2000 words)
-        // Truncated to 10 words as per user request
+        // <<< IELTS Word List >>>
+        // Sourced from: https://transglobaloverseas.com/blog/vocabulary-words-for-ielts/
         const words = [
-            {
-                word: "Abandon",
-                definition: "To leave a place, thing, or person, usually for ever.",
-                options: [
-                    "To leave a place, thing, or person, usually for ever.",
-                    "To hold onto tightly.",
-                    "To maintain and keep.",
-                    "To begin something new."
-                ]
-            },
-            {
-                word: "Abstract",
-                definition: "Existing as an idea but not as a tangible object.",
-                options: [
-                    "Existing as an idea but not as a tangible object.",
-                    "Having a physical form.",
-                    "Easy to understand.",
-                    "Concrete and specific."
-                ]
-            },
-            {
-                word: "Academic",
-                definition: "Relating to education and scholarship.",
-                options: [
-                    "Relating to education and scholarship.",
-                    "Related to practical skills.",
-                    "Focused on physical activities.",
-                    "Connected to business."
-                ]
-            },
-            {
-                word: "Access",
-                definition: "The right or opportunity to use or benefit from something.",
-                options: [
-                    "The right or opportunity to use or benefit from something.",
-                    "To block or prevent entry.",
-                    "A secret pathway.",
-                    "To limit availability."
-                ]
-            },
-            {
-                word: "Accommodate",
-                definition: "To provide lodging or sufficient space for.",
-                options: [
-                    "To provide lodging or sufficient space for.",
-                    "To make something smaller.",
-                    "To refuse entry.",
-                    "To remove from a place."
-                ]
-            },
-            {
-                word: "Accompany",
-                definition: "To go somewhere with someone as a companion or escort.",
-                options: [
-                    "To go somewhere with someone as a companion or escort.",
-                    "To leave someone alone.",
-                    "To send someone away.",
-                    "To move independently."
-                ]
-            },
-            {
-                word: "Accumulate",
-                definition: "To gather or acquire an increasing number or quantity of.",
-                options: [
-                    "To gather or acquire an increasing number or quantity of.",
-                    "To decrease rapidly.",
-                    "To distribute evenly.",
-                    "To separate into parts."
-                ]
-            },
-            {
-                word: "Accurate",
-                definition: "Correct in all details; exact.",
-                options: [
-                    "Correct in all details; exact.",
-                    "Containing errors.",
-                    "Approximately correct.",
-                    "Vague and unclear."
-                ]
-            },
-            {
-                word: "Achieve",
-                definition: "To successfully bring about or reach (a desired objective or result) by effort, skill, or courage.",
-                options: [
-                    "To successfully bring about or reach (a desired objective or result) by effort, skill, or courage.",
-                    "To give up easily.",
-                    "To fail at a task.",
-                    "To avoid responsibility."
-                ]
-            },
-            {
-                word: "Acknowledge",
-                definition: "To accept or admit the existence or truth of.",
-                options: [
-                    "To accept or admit the existence or truth of.",
-                    "To deny or dispute.",
-                    "To ignore completely.",
-                    "To question suspiciously."
-                ]
-            }
+            { word: "Ability", definition: "Possession of the means or skill to do something." },
+            { word: "Active", definition: "Energetic." },
+            { word: "Antique", definition: "Old item." },
+            { word: "Agility", definition: "Quickness." },
+            { word: "Attire", definition: "Dress." },
+            { word: "Assets", definition: "Earnings." },
+            { word: "Amateur", definition: "Beginner." },
+            { word: "Assault", definition: "Attack." },
+            { word: "Abroad", definition: "Overseas." },
+            { word: "Adversity", definition: "Difficulty." },
+            { word: "Allure", definition: "Attract." },
+            { word: "Admit", definition: "Confess." },
+            { word: "Amiable", definition: "Friendly." },
+            { word: "Annoy", definition: "Disturb someone." },
+            { word: "Aggressive", definition: "Assertive." },
+            { word: "Acquit", definition: "Release." },
+            { word: "Awful", definition: "Terrible." },
+            { word: "Ambition", definition: "Dreams." },
+            { word: "Anxious", definition: "Nervous." },
+            { word: "Achieve", definition: "Accomplish." },
+            { word: "Aid", definition: "Help." },
+            { word: "Amount", definition: "Quantity." },
+            { word: "Adroit", definition: "Expert." },
+            { word: "Adequate", definition: "Sufficient." },
+            { word: "Alteration", definition: "Change." },
+            { word: "Ambiance", definition: "Environment." },
+            { word: "Allow", definition: "Permit." },
+            { word: "Amicable", definition: "Helpful." },
+            { word: "Astonishing", definition: "Surprising." },
+            { word: "Ambitious", definition: "Aspiring." },
+            { word: "Accord", definition: "Agreement." },
+            { word: "Abode", definition: "A place where you live." },
+            { word: "Accurate", definition: "Correct." },
+            { word: "Authentic", definition: "Genuine." },
+            { word: "Abandon", definition: "To leave something." },
+            { word: "Answer", definition: "Response." },
+            { word: "Alike", definition: "Same." },
+            { word: "Ask", definition: "Inquire." },
+            { word: "Adamant", definition: "Firm." },
+            { word: "Appreciation", definition: "To applaud one's effort." },
+            { word: "Agree", definition: "Consent." },
+            { word: "Approve", definition: "Accept." },
+            { word: "Baffle", definition: "Confuse." },
+            { word: "Belligerent", definition: "Hostile." },
+            { word: "Benevolent", definition: "Kind-hearted." },
+            { word: "Bias", definition: "Prejudice." },
+            { word: "Brevity", definition: "Conciseness." },
+            { word: "Bizarre", definition: "Strange." },
+            { word: "Banal", definition: "Commonplace." },
+            { word: "Barren", definition: "Empty." },
+            { word: "Blatant", definition: "Obvious." },
+            { word: "Bemoan", definition: "Complain about." },
+            { word: "Beneath", definition: "Below." },
+            { word: "Belittle", definition: "Disparage." },
+            { word: "Bewilder", definition: "Confuse." },
+            { word: "Brazen", definition: "Bold." },
+            { word: "Bountiful", definition: "Abundant." },
+            { word: "Berate", definition: "Scold." },
+            { word: "Behemoth", definition: "Huge." },
+            { word: "Beneficial", definition: "Advantageous." },
+            { word: "Blissful", definition: "Joyful." },
+            { word: "Burgeon", definition: "Flourish." },
+            { word: "Banish", definition: "Expel." },
+            { word: "Bypass", definition: "Avoid." },
+            { word: "Blithe", definition: "Carefree." },
+            { word: "Brisk", definition: "Quick." },
+            { word: "Brood", definition: "Worry." },
+            { word: "Brawl", definition: "Fight." },
+            { word: "Bungle", definition: "Mess up." },
+            { word: "Befuddle", definition: "Confuse." },
+            { word: "Bolster", definition: "Support." },
+            { word: "Beguile", definition: "Deceive." },
+            { word: "Bask", definition: "Enjoy." },
+            { word: "Bristle", definition: "React angrily." },
+            { word: "Cacophony", definition: "Harsh sound." },
+            { word: "Callous", definition: "Insensitive." },
+            { word: "Candid", definition: "Honest." },
+            { word: "Capitulate", definition: "Surrender." },
+            { word: "Catalyst", definition: "Stimulus." },
+            { word: "Caution", definition: "Warning." },
+            { word: "Cerebral", definition: "Intellectual." },
+            { word: "Charismatic", definition: "Charming." },
+            { word: "Coalesce", definition: "Merge." },
+            { word: "Coherent", definition: "Logical." },
+            { word: "Colossal", definition: "Huge." },
+            { word: "Complacent", definition: "Self-satisfied." },
+            { word: "Concede", definition: "Admit." },
+            { word: "Conducive", definition: "Favorable." },
+            { word: "Conundrum", definition: "Puzzle." },
+            { word: "Cordial", definition: "Friendly." },
+            { word: "Corroborate", definition: "Confirm." },
+            { word: "Credible", definition: "Reliable." },
+            { word: "Cryptic", definition: "Mysterious." },
+            { word: "Culminate", definition: "Peak." },
+            { word: "Cumbersome", definition: "Bulky." },
+            { word: "Cynical", definition: "Skeptical." },
+            { word: "Concur", definition: "Agree." },
+            { word: "Constrict", definition: "Tighten." },
+            { word: "Contentious", definition: "Controversial." },
+            { word: "Copious", definition: "Abundant." },
+            { word: "Corrode", definition: "Erode." },
+            { word: "Curtail", definition: "Shorten." },
+            { word: "Convoluted", definition: "Complicated." },
+            { word: "Conspicuous", definition: "Noticeable." },
+            { word: "Consume", definition: "Devour." },
+            { word: "Commence", definition: "Begin." },
+            { word: "Collaborate", definition: "Cooperate." },
+            { word: "Chronicle", definition: "Record." },
+            { word: "Circumvent", definition: "Avoid." },
+            { word: "Connoisseur", definition: "Expert." },
+            { word: "Composure", definition: "Calmness." },
+            { word: "Consensus", definition: "Agreement." },
+            { word: "Congenial", definition: "Friendly." },
+            { word: "Contrive", definition: "Invent." },
+            { word: "Constitute", definition: "Form." },
+            { word: "Dazzling", definition: "Bright, splendid." },
+            { word: "Deceive", definition: "Mislead, trick." },
+            { word: "Decipher", definition: "Decode, interpret." },
+            { word: "Deficient", definition: "Lacking, inadequate." },
+            { word: "Delicate", definition: "Fragile, subtle." },
+            { word: "Deter", definition: "Discourage." },
+            { word: "Deviate", definition: "Diverge, stray." },
+            { word: "Diligent", definition: "Hardworking, meticulous." },
+            { word: "Diminish", definition: "Reduce, decrease." },
+            { word: "Discern", definition: "Perceive, recognize." },
+            { word: "Discreet", definition: "Cautious, subtle." },
+            { word: "Disperse", definition: "Scatter, spread." },
+            { word: "Distinct", definition: "Clear, unique." },
+            { word: "Diverse", definition: "Varied, different." },
+            { word: "Dominate", definition: "Control, overpower." },
+            { word: "Durable", definition: "Lasting, sturdy." },
+            { word: "Dwell", definition: "Reside, inhabit." },
+            { word: "Dwindle", definition: "Decrease, diminish." },
+            { word: "Dynamic", definition: "Energetic, lively." },
+            { word: "Eager", definition: "Enthusiastic." },
+            { word: "Elaborate", definition: "Detailed." },
+            { word: "Embrace", definition: "Hug." },
+            { word: "Empathy", definition: "Understanding." },
+            { word: "Endeavor", definition: "Effort." },
+            { word: "Enrich", definition: "Improve." },
+            { word: "Enhance", definition: "Improve." },
+            { word: "Enthusiastic", definition: "Excited." },
+            { word: "Ephemeral", definition: "Temporary." },
+            { word: "Eradicate", definition: "Eliminate." },
+            { word: "Erratic", definition: "Unpredictable." },
+            { word: "Exemplify", definition: "Illustrate." },
+            { word: "Exuberant", definition: "Energetic." },
+            { word: "Elusive", definition: "Hard to catch." },
+            { word: "Eloquent", definition: "Fluent." },
+            { word: "Eminent", definition: "Distinguished." },
+            { word: "Empower", definition: "Strengthen." },
+            { word: "Encompass", definition: "Include." },
+            { word: "Endorse", definition: "Support." },
+            { word: "Entice", definition: "Attract." },
+            { word: "Esteem", definition: "Respect." },
+            { word: "Evolve", definition: "Develop." },
+            { word: "Exceed", definition: "Surpass." },
+            { word: "Exquisite", definition: "Beautiful." },
+            { word: "Exemplary", definition: "Outstanding." },
+            { word: "Explicit", definition: "Clear." },
+            { word: "Expose", definition: "Uncover." },
+            { word: "Extend", definition: "Expand." },
+            { word: "Elude", definition: "Avoid." },
+            { word: "Endure", definition: "Tolerate." },
+            { word: "Exasperate", definition: "Irritate." },
+            { word: "Eccentric", definition: "Unconventional." },
+            { word: "Elicit", definition: "Evoke." },
+            { word: "Elongate", definition: "Lengthen." },
+            { word: "Enlist", definition: "Recruit." }
         ];
 
         // Global Game State
         let currentScore = 0;
         let wrongAttempts = 0;
-        const maxWrongAttempts = 3;
-        let usedWords = new Set();
-        let currentWord = null;
-        let isMusicPlaying = true;
-        let playerUserId = 'anonymous'; // Default to anonymous
+        let consecutiveWrongAttempts = 0;
+        let currentWord = {};
+        let timedLeaderboardData = [];
+        let untimedLeaderboardData = [];
+        let musicPlaying = false;
+        let modalOnCloseCallback = null;
+        let gameMode = 'timed'; // 'timed' or 'untimed'
+        let currentLeaderboardMode = 'timed';
+        let latestSubmittedDocIdForHighlight = null; // To highlight the new score
+        let questionsAnsweredThisGame = 0;
+        let correctAnswersThisGame = 0;
+        
+        // Timer State
+        let gameTimer = null;
+        const totalTime = 60; // Total time for timed mode
+        let timeLeft = totalTime;
+        let isTimerPausedForModal = false;
+
+        // Stats State
+        let currentStatsMode = 'timed';
+        let userStats = {
+            timed: { gamesPlayed: 0, highestScore: 0, totalCorrect: 0, totalAnswered: 0 },
+            untimed: { gamesPlayed: 0, highestScore: 0, totalCorrect: 0, totalAnswered: 0 }
+        };
+        let isUserStatsLoaded = false;
+        let isLeaderboardLoaded = false;
+
+        // Pagination state
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let totalPages = 1;
 
         // DOM Elements
+        const backgroundCanvas = document.getElementById('background-canvas');
         const mainMenuScreen = document.getElementById('main-menu');
+        const gameModeScreen = document.getElementById('game-mode-screen');
         const gameScreen = document.getElementById('game-screen');
         const gameOverScreen = document.getElementById('game-over-screen');
         const leaderboardScreen = document.getElementById('leaderboard-screen');
-
-        const playSoloButton = document.getElementById('play-solo-button');
+        const leaderboardLoading = document.getElementById('leaderboard-loading');
+        const statsScreen = document.getElementById('stats-screen');
+        const playGameButton = document.getElementById('play-game-button');
+        const timedModeButton = document.getElementById('timed-mode-button');
+        const untimedModeButton = document.getElementById('untimed-mode-button');
+        const backToMainMenuButton = document.getElementById('back-to-main-menu-button');
         const showLeaderboardMainMenuButton = document.getElementById('show-leaderboard-main');
+        const showStatsButton = document.getElementById('show-stats-button');
         const toggleMusicButton = document.getElementById('toggle-music-button');
-
-        const scoreDisplay = document.getElementById('score-display');
-        const wrongAttemptsDisplay = document.getElementById('wrong-attempts-display');
         const wordDisplay = document.getElementById('word-display');
         const choicesContainer = document.getElementById('choices-container');
-
+        const scoreDisplay = document.getElementById('score-display');
+        const wrongAttemptsDisplay = document.getElementById('wrong-attempts-display');
+        const timerDisplay = document.getElementById('timer-display');
+        const timerBarContainer = document.getElementById('timer-bar-container');
+        const timerBar = document.getElementById('timer-bar');
         const finalScoreDisplay = document.getElementById('final-score');
         const playerNameInput = document.getElementById('player-name-input');
         const saveScoreButton = document.getElementById('save-score-button');
         const playAgainButton = document.getElementById('play-again-button');
         const mainMenuFromGameOverButton = document.getElementById('main-menu-from-gameover');
-
         const leaderboardBody = document.getElementById('leaderboard-body');
-        const leaderboardLoading = document.getElementById('leaderboard-loading');
-        const downloadLeaderboardButton = document.getElementById('download-leaderboard-button');
         const mainMenuFromLeaderboardButton = document.getElementById('main-menu-from-leaderboard');
-
         const backgroundMusic = document.getElementById('background-music');
         const correctSound = document.getElementById('correct-sound');
         const wrongSound = document.getElementById('wrong-sound');
-
-        // Custom Modal Elements
+        const prevPageButton = document.getElementById('prev-page-button');
+        const nextPageButton = document.getElementById('next-page-button');
+        const pageInfoSpan = document.getElementById('page-info');
+        const gamesPlayedStat = document.getElementById('games-played-stat');
+        const highestRankStat = document.getElementById('highest-rank-stat');
+        const highestScoreStat = document.getElementById('highest-score-stat');
+        const accuracyStat = document.getElementById('accuracy-stat');
+        const mainMenuFromStatsButton = document.getElementById('main-menu-from-stats');
+        const highestScorerOverallDisplay = document.getElementById('highest-scorer-overall-display');
+        const untimedHighestScorerDisplay = document.getElementById('untimed-highest-scorer-display');
         const customModalOverlay = document.getElementById('custom-modal-overlay');
         const modalTitle = document.getElementById('modal-title');
         const modalMessage = document.getElementById('modal-message');
-        const modalCloseButton = document.getElementById('modal-close-button');
+        const modalConfirmButton = document.getElementById('modal-confirm-button');
+        const modalCancelButton = document.getElementById('modal-cancel-button');
+        const showTimedLeaderboardButton = document.getElementById('show-timed-leaderboard');
+        const showUntimedLeaderboardButton = document.getElementById('show-untimed-leaderboard');
+        const showTimedStatsButton = document.getElementById('show-timed-stats');
+        const showUntimedStatsButton = document.getElementById('show-untimed-stats');
+        const leaderboardTitle = document.getElementById('leaderboard-title');
+        const statsLoading = document.getElementById('stats-loading');
+        const statsContent = document.getElementById('stats-content');
+        const exitGameButton = document.getElementById('exit-game-button');
 
-
-        // --- Utility Functions ---
-
-        /**
-         * Shuffles an array randomly.
-         * @param {Array} array The array to shuffle.
-         * @returns {Array} The shuffled array.
-         */
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -684,353 +865,686 @@
             return array;
         }
 
-        /**
-         * Displays a custom modal with a given title and message.
-         * @param {string} title The title of the modal.
-         * @param {string} message The message content of the modal.
-         */
-        window.showCustomModal = function(title, message) {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            customModalOverlay.classList.remove('hidden');
-        };
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            if (screenId === 'main-menu') {
+                highestScorerOverallDisplay.classList.remove('hidden');
+                untimedHighestScorerDisplay.classList.remove('hidden');
+                updateHighestScorerDisplay();
+            } else {
+                highestScorerOverallDisplay.classList.add('hidden');
+                untimedHighestScorerDisplay.classList.add('hidden');
+            }
+            if (screenId === 'leaderboard-screen') {
+                if (isLeaderboardLoaded) {
+                    renderLeaderboardPage();
+                } else {
+                    leaderboardLoading.classList.remove('hidden');
+                }
+            } else if (screenId === 'stats-screen') {
+                showStatsScreen();
+            }
+        }
 
-        /**
-         * Hides the custom modal.
-         */
+        function showCustomModal(title, message, confirmCallback = null, showCancel = false) {
+            modalTitle.textContent = title;
+            modalMessage.innerHTML = message;
+            
+            modalCancelButton.classList.toggle('hidden', !showCancel);
+            
+            modalConfirmButton.onclick = () => {
+                hideCustomModal();
+                if (confirmCallback) confirmCallback();
+            };
+            
+            modalCancelButton.onclick = () => {
+                hideCustomModal();
+                 if (gameMode === 'timed') isTimerPausedForModal = false;
+            };
+
+            customModalOverlay.classList.remove('hidden');
+            if (gameMode === 'timed') isTimerPausedForModal = true;
+        }
+
         function hideCustomModal() {
             customModalOverlay.classList.add('hidden');
         }
 
-        /**
-         * Plays a sound effect.
-         * @param {HTMLAudioElement} soundElement The audio element to play.
-         */
-        function playSound(soundElement) {
-            if (soundElement) {
-                soundElement.currentTime = 0; // Rewind to start
-                soundElement.play().catch(e => console.error("Error playing sound:", e));
+        function updateTimerDisplay() {
+            timerDisplay.textContent = `Time: ${timeLeft}`;
+            if (gameMode === 'timed') {
+                const percentage = (timeLeft / totalTime) * 100;
+                timerBar.style.width = `${percentage}%`;
+
+                if (percentage < 25) {
+                    timerBar.style.backgroundColor = '#FF4500'; // OrangeRed
+                } else if (percentage < 50) {
+                    timerBar.style.backgroundColor = '#FFD700'; // Gold
+                } else {
+                    timerBar.style.backgroundColor = 'var(--primary-bright)';
+                }
             }
         }
 
-        /**
-         * Switches between game screens.
-         * @param {HTMLElement} screenToShow The screen element to make active.
-         */
-        function showScreen(screenToShow) {
-            const screens = document.querySelectorAll('.screen');
-            screens.forEach(screen => screen.classList.remove('active'));
-            screenToShow.classList.add('active');
+        function countdown() {
+            if (isTimerPausedForModal) return;
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0 && gameMode === 'timed') {
+                clearInterval(gameTimer);
+                gameTimer = null;
+                endGame();
+            }
         }
 
-        // --- Game Logic ---
-
-        /**
-         * Resets game state and starts a new game.
-         */
-        function startGame() {
+        function startGame(mode) {
+            gameMode = mode;
             currentScore = 0;
             wrongAttempts = 0;
-            usedWords.clear();
-            scoreDisplay.textContent = `Score: ${currentScore}`;
-            wrongAttemptsDisplay.textContent = `Wrong: ${wrongAttempts}/${maxWrongAttempts}`;
-            playerUserId = window.currentUserId || crypto.randomUUID(); // Ensure userId is set
-            showScreen(gameScreen);
-            nextWord();
+            consecutiveWrongAttempts = 0;
+            questionsAnsweredThisGame = 0;
+            correctAnswersThisGame = 0;
+            isTimerPausedForModal = false;
+            
+            updateScoreDisplay();
+            if (gameMode === 'timed') {
+                timeLeft = totalTime;
+                timerDisplay.style.display = 'block';
+                timerBarContainer.classList.remove('hidden');
+                updateTimerDisplay(); // Initial call to set bar
+                if (gameTimer) clearInterval(gameTimer);
+                gameTimer = setInterval(countdown, 1000);
+            } else {
+                timerDisplay.style.display = 'none';
+                timerBarContainer.classList.add('hidden');
+                if (gameTimer) clearInterval(gameTimer);
+                gameTimer = null;
+            }
+            showScreen('game-screen');
+            pickAndDisplayWord();
         }
 
-        /**
-         * Fetches a new random word, ensuring it hasn't been used recently.
-         * If all words are used, resets and shuffles.
-         */
-        function nextWord() {
-            if (usedWords.size === words.length) {
-                showCustomModal("Game Complete!", "You've gone through all available words! Restarting word list.");
-                usedWords.clear(); // Reset if all words have been used
-            }
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = `Score: ${currentScore}`;
+            wrongAttemptsDisplay.textContent = `Wrong: ${wrongAttempts}/3`;
+        }
 
-            let availableWords = words.filter(wordObj => !usedWords.has(wordObj.word));
-            if (availableWords.length === 0) {
-                 // This case should ideally be covered by the above check, but as a fallback
-                showCustomModal("Error", "No words available. Please reload the game.");
+        function pickAndDisplayWord() {
+            if (words.length === 0) {
+                showCustomModal("Error", "No words loaded. Please check the word list.", () => showScreen('main-menu'));
                 return;
             }
-
-            const randomIndex = Math.floor(Math.random() * availableWords.length);
-            currentWord = availableWords[randomIndex];
-            usedWords.add(currentWord.word); // Mark as used
-
+            const randomIndex = Math.floor(Math.random() * words.length);
+            currentWord = { ...words[randomIndex] };
+            let allDefinitions = words.map(w => w.definition);
+            let incorrectDefinitions = allDefinitions.filter(def => def !== currentWord.definition);
+            shuffleArray(incorrectDefinitions);
+            const distractors = incorrectDefinitions.slice(0, 3);
+            let choices = [currentWord.definition, ...distractors];
+            shuffleArray(choices);
+            currentWord.shuffledOptions = choices;
             wordDisplay.textContent = currentWord.word;
             wordDisplay.classList.remove('correct-feedback', 'wrong-feedback');
-            displayChoices(currentWord);
+            choicesContainer.innerHTML = '';
+            displayChoices();
         }
 
-        /**
-         * Displays the definition choices for the current word.
-         * @param {Object} wordObj The current word object.
-         */
-        function displayChoices(wordObj) {
-            choicesContainer.innerHTML = ''; // Clear previous choices
-
-            // Create an array of options including the correct one
-            const allOptions = [...wordObj.options];
-
-            // Shuffle the options to randomize button order
-            shuffleArray(allOptions);
-
-            allOptions.forEach(optionText => {
+        function displayChoices() {
+            currentWord.shuffledOptions.forEach((option, index) => {
                 const button = document.createElement('button');
-                button.classList.add('choice-button', 'w-full');
-                button.textContent = optionText;
-                button.addEventListener('click', () => checkAnswer(optionText, wordObj.definition));
+                button.className = 'choice-button rounded-lg text-sm md:text-base';
+                button.textContent = option;
+                button.dataset.index = index;
+                button.addEventListener('click', (event) => checkAnswer(option, event.currentTarget));
                 choicesContainer.appendChild(button);
             });
         }
 
-        /**
-         * Checks if the selected answer is correct.
-         * @param {string} selectedOption The definition selected by the player.
-         * @param {string} correctDefinition The correct definition for the word.
-         */
-        function checkAnswer(selectedOption, correctDefinition) {
-            // Temporarily disable buttons to prevent multiple clicks
-            const choiceButtons = choicesContainer.querySelectorAll('.choice-button');
-            choiceButtons.forEach(button => button.disabled = true);
-
-            // Visual feedback
-            if (selectedOption === correctDefinition) {
-                currentScore += 10; // Increase score
-                scoreDisplay.textContent = `Score: ${currentScore}`;
-                wordDisplay.classList.add('correct-feedback');
-                playSound(correctSound);
+        function checkAnswer(selectedDefinition, clickedButton) {
+            questionsAnsweredThisGame++;
+            let isCorrect = (selectedDefinition === currentWord.definition);
+            
+            if (isCorrect) {
+                currentScore++;
+                correctAnswersThisGame++;
+                consecutiveWrongAttempts = 0; // Reset streak on correct answer
+                if (correctSound) correctSound.play().catch(e => {});
             } else {
                 wrongAttempts++;
-                wrongAttemptsDisplay.textContent = `Wrong: ${wrongAttempts}/${maxWrongAttempts}`;
-                wordDisplay.classList.add('wrong-feedback');
-                playSound(wrongSound);
+                consecutiveWrongAttempts++; // Increment streak on wrong answer
+                if (wrongSound) wrongSound.play().catch(e => {});
             }
 
-            // Wait a moment before moving to the next word or ending the game
+            document.querySelectorAll('.choice-button').forEach(btn => btn.disabled = true);
+            if (clickedButton) clickedButton.classList.add('selected-feedback');
+            wordDisplay.classList.add(isCorrect ? 'correct-feedback' : 'wrong-feedback');
+            updateScoreDisplay();
+
             setTimeout(() => {
-                // Re-enable buttons before next word, or if game over, they remain disabled
-                choiceButtons.forEach(button => button.disabled = false);
+                wordDisplay.classList.remove('correct-feedback', 'wrong-feedback');
+                if (clickedButton) clickedButton.classList.remove('selected-feedback');
+                document.querySelectorAll('.choice-button').forEach(btn => btn.disabled = false);
 
-                if (wrongAttempts >= maxWrongAttempts) {
-                    endGame();
+                // Updated Game Over Condition
+                const gameOverCondition = (gameMode === 'untimed' && consecutiveWrongAttempts >= 3) || (gameMode === 'timed' && timeLeft <= 0);
+
+                if (!isCorrect) {
+                    isTimerPausedForModal = true;
+                    if(gameTimer) clearInterval(gameTimer);
+                    gameTimer = null;
+                    const message = `Correct answer for "${currentWord.word}": <br><br><span class="text-green-400">"${currentWord.definition}"</span>`;
+                    showCustomModal("Incorrect", message, () => {
+                        isTimerPausedForModal = false;
+                        if (gameOverCondition) {
+                            endGame();
+                        } else {
+                            if (gameMode === 'timed' && !gameTimer) {
+                                gameTimer = setInterval(countdown, 1000);
+                            }
+                            pickAndDisplayWord();
+                        }
+                    });
                 } else {
-                    nextWord();
+                    if (gameOverCondition) {
+                        endGame();
+                    }
+                    else {
+                        pickAndDisplayWord();
+                    }
                 }
-            }, 700); // Short delay for feedback
+            }, 500);
         }
 
-        /**
-         * Ends the game and transitions to the game over screen.
-         */
         function endGame() {
+            if (gameTimer) {
+                clearInterval(gameTimer);
+                gameTimer = null;
+            }
+            updateStatsInFirestore();
+            showScreen('game-over-screen');
             finalScoreDisplay.textContent = currentScore;
-            showScreen(gameOverScreen);
-            playerNameInput.value = ''; // Clear input for new entry
+            playerNameInput.value = '';
+            saveScoreButton.disabled = false;
         }
 
-        // --- Leaderboard Functions (Firebase Integration) ---
-
-        /**
-         * Saves the player's score to Firestore.
-         */
-        async function saveScore() {
-            if (!window.firebaseInitialized) {
-                window.showCustomModal("Firebase Not Ready", "Please wait, Firebase is still initializing. Try again in a moment.");
-                return;
+        async function retryFirebaseCall(fn, retries = 5, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    return await fn();
+                } catch (error) {
+                    if (['unavailable', 'resource-exhausted', 'aborted'].includes(error.code)) {
+                        await new Promise(res => setTimeout(res, delay));
+                        delay *= 2;
+                    } else { throw error; }
+                }
             }
+            throw new Error(`Firebase call failed after ${retries} retries.`);
+        }
 
+        async function saveScore() {
             const playerName = playerNameInput.value.trim();
             if (!playerName) {
-                window.showCustomModal("Error", "Please enter your name to save your score!");
+                showCustomModal("Oops!", "Please enter your name to save your score!");
                 return;
             }
-
+            if (!window.firebaseInitialized || !window.currentUserId) {
+                showCustomModal("Error", "Leaderboard service not ready. Try again.");
+                return;
+            }
+            saveScoreButton.disabled = true;
             try {
-                // Determine the collection path based on whether it's a Canvas environment or local
-                const scoresCollectionPath = `/artifacts/${window.appId}/public/data/leaderboard-scores`;
-                const scoresCollectionRef = window.collection(window.db, scoresCollectionPath);
-
-                await window.addDoc(scoresCollectionRef, {
+                const docRef = await retryFirebaseCall(() => window.addDoc(window.collection(window.db, `artifacts/${window.appId}/public/data/globalLeaderboard`), {
                     name: playerName,
                     score: currentScore,
                     timestamp: window.serverTimestamp(),
-                    userId: window.currentUserId
+                    userId: window.currentUserId,
+                    mode: gameMode // Save the game mode
+                }));
+                showCustomModal("Score Saved!", "Your score has been added to the leaderboard!", () => {
+                    latestSubmittedDocIdForHighlight = docRef.id; // Set global highlight ID
+                    displayGlobalLeaderboard(true); // Navigate to leaderboard
                 });
-                window.showCustomModal("Score Saved!", "Your score has been added to the leaderboard!");
-                console.log("Score saved successfully!");
-                showLeaderboard(); // Show leaderboard after saving
             } catch (e) {
-                console.error("Error adding document: ", e);
-                window.showCustomModal("Error", "Failed to save score. Please try again. Check console for details.");
+                console.error("Error saving score:", e);
+                showCustomModal("Save Error", `Could not save score: ${e.message}`);
+                saveScoreButton.disabled = false;
             }
         }
 
-        /**
-         * Fetches and displays the global leaderboard from Firestore.
-         */
-        window.loadGlobalLeaderboard = function() {
-            if (!window.firebaseInitialized) {
-                // Firebase not ready, show loading message and return
-                leaderboardLoading.classList.remove('hidden');
-                leaderboardBody.innerHTML = '';
+        function renderLeaderboardPage(latestSubmittedDocId = null) {
+            leaderboardLoading.classList.add('hidden');
+            const sourceData = currentLeaderboardMode === 'timed' ? timedLeaderboardData : untimedLeaderboardData;
+            
+            if (sourceData.length === 0) {
+                leaderboardBody.innerHTML = '<tr><td colspan="3">No scores yet! Be the first!</td></tr>';
+                pageInfoSpan.textContent = "Page 0/0";
+                prevPageButton.disabled = true;
+                nextPageButton.disabled = true;
                 return;
             }
+            
+            totalPages = Math.ceil(sourceData.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const scoresToDisplay = sourceData.slice(startIndex, startIndex + itemsPerPage);
 
-            leaderboardLoading.classList.remove('hidden'); // Show loading
-            leaderboardBody.innerHTML = ''; // Clear existing entries
+            leaderboardBody.innerHTML = '';
+            scoresToDisplay.forEach((entry, index) => {
+                const row = document.createElement('tr');
+                const rank = startIndex + index + 1;
+                
+                if (window.currentUserId && entry.userId === window.currentUserId) {
+                    row.classList.add('bg-blue-900', 'text-blue-100');
+                }
+
+                if (latestSubmittedDocId && entry.id === latestSubmittedDocId) {
+                    row.classList.add('recent-score-highlight');
+                }
+
+                row.innerHTML = `<td>${rank}</td><td>${entry.name}</td><td>${entry.score}</td>`;
+                leaderboardBody.appendChild(row);
+            });
+
+            pageInfoSpan.textContent = `Page ${currentPage}/${totalPages}`;
+            prevPageButton.disabled = currentPage === 1;
+            nextPageButton.disabled = currentPage === totalPages;
+        }
+
+        function checkAndRenderData() {
+            if (isUserStatsLoaded && isLeaderboardLoaded) {
+                updateHighestScorerDisplay();
+                updateStatsDisplay();
+            }
+        }
+
+        function listenForLeaderboardChanges() {
+            if (!window.firebaseInitialized) return;
+
+            const q = window.query(window.collection(window.db, `artifacts/${window.appId}/public/data/globalLeaderboard`),
+                window.orderBy('score', 'desc'),
+                window.orderBy('timestamp', 'asc')
+            );
+
+            window.onSnapshot(q, (querySnapshot) => {
+                const allScores = [];
+                querySnapshot.forEach((doc) => allScores.push({ id: doc.id, ...doc.data() }));
+
+                timedLeaderboardData = allScores.filter(s => s.mode === 'timed');
+                untimedLeaderboardData = allScores.filter(s => s.mode === 'untimed');
+
+                isLeaderboardLoaded = true;
+                checkAndRenderData();
+
+                if (latestSubmittedDocIdForHighlight) {
+                    const sourceData = currentLeaderboardMode === 'timed' ? timedLeaderboardData : untimedLeaderboardData;
+                    const userScoreEntry = sourceData.find(s => s.id === latestSubmittedDocIdForHighlight);
+                    if (userScoreEntry) {
+                        const userRank = sourceData.indexOf(userScoreEntry) + 1;
+                        currentPage = Math.ceil(userRank / itemsPerPage);
+                    }
+                }
+
+                renderLeaderboardPage(latestSubmittedDocIdForHighlight);
+                
+                if (latestSubmittedDocIdForHighlight) {
+                    latestSubmittedDocIdForHighlight = null;
+                }
+
+            }, (error) => {
+                console.error("Error fetching leaderboard:", error);
+                leaderboardLoading.classList.add('hidden');
+                leaderboardBody.innerHTML = `<tr><td colspan="3">Could not load leaderboard.</td></tr>`;
+            });
+        }
+
+        function goToPreviousPage() { if (currentPage > 1) { currentPage--; renderLeaderboardPage(); } }
+        function goToNextPage() { if (currentPage < totalPages) { currentPage++; renderLeaderboardPage(); } }
+
+        function displayGlobalLeaderboard(goToUserScore = false) {
+            if (goToUserScore) {
+                currentLeaderboardMode = gameMode;
+                
+                if (gameMode === 'timed') {
+                    leaderboardTitle.textContent = "Rapid Leaderboard";
+                    showTimedLeaderboardButton.classList.add('active');
+                    showUntimedLeaderboardButton.classList.remove('active');
+                } else {
+                    leaderboardTitle.textContent = "Endless Leaderboard";
+                    showUntimedLeaderboardButton.classList.add('active');
+                    showTimedLeaderboardButton.classList.remove('active');
+                }
+            } else {
+                latestSubmittedDocIdForHighlight = null;
+                currentPage = 1;
+            }
+            showScreen('leaderboard-screen');
+        }
+
+        async function updateStatsInFirestore() {
+            if (!window.firebaseInitialized || !window.currentUserId) return;
+            const userStatsDocRef = window.doc(window.db, `artifacts/${window.appId}/users/${window.currentUserId}/userStats/statsDoc`);
+            
+            const statsForMode = userStats[gameMode];
+            const newHighestScore = Math.max(statsForMode.highestScore, currentScore);
+
+            const updateData = {};
+            updateData[`${gameMode}.gamesPlayed`] = window.increment(1);
+            updateData[`${gameMode}.totalCorrect`] = window.increment(correctAnswersThisGame);
+            updateData[`${gameMode}.totalAnswered`] = window.increment(questionsAnsweredThisGame);
+            updateData[`${gameMode}.highestScore`] = newHighestScore;
 
             try {
-                const scoresCollectionPath = `/artifacts/${window.appId}/public/data/leaderboard-scores`;
-                const scoresCollectionRef = window.collection(window.db, scoresCollectionPath);
-                const q = window.query(scoresCollectionRef, window.orderBy("score", "desc")); // Order by score descending
+                await retryFirebaseCall(() => window.updateDoc(userStatsDocRef, updateData));
+                userStats[gameMode].gamesPlayed++;
+                userStats[gameMode].totalCorrect += correctAnswersThisGame;
+                userStats[gameMode].totalAnswered += questionsAnsweredThisGame;
+                userStats[gameMode].highestScore = newHighestScore;
 
-                // Use onSnapshot for real-time updates
-                window.onSnapshot(q, (snapshot) => {
-                    leaderboardLoading.classList.add('hidden'); // Hide loading once data starts coming
-                    leaderboardBody.innerHTML = ''; // Clear before populating
-                    let rank = 1;
-                    snapshot.forEach((doc) => {
-                        const scoreData = doc.data();
-                        const row = leaderboardBody.insertRow();
-                        row.insertCell(0).textContent = rank++;
-                        row.insertCell(1).textContent = scoreData.name;
-                        row.insertCell(2).textContent = scoreData.score;
-                    });
-
-                    if (snapshot.empty) {
-                        const row = leaderboardBody.insertRow();
-                        const cell = row.insertCell(0);
-                        cell.colSpan = 3;
-                        cell.textContent = "No scores yet! Be the first!";
-                        cell.classList.add('text-center', 'py-4');
-                    }
-                }, (error) => {
-                    console.error("Error fetching leaderboard: ", error);
-                    leaderboardLoading.classList.add('hidden');
-                    window.showCustomModal("Error", "Failed to load leaderboard. Check console for details.");
-                });
             } catch (e) {
-                console.error("Error setting up leaderboard snapshot: ", e);
-                leaderboardLoading.classList.add('hidden');
-                window.showCustomModal("Error", "Leaderboard system not fully initialized. Try refreshing.");
-            }
-        };
-
-
-        /**
-         * Displays the leaderboard screen and loads data.
-         */
-        function showLeaderboard() {
-            showScreen(leaderboardScreen);
-            window.loadGlobalLeaderboard(); // Load or refresh leaderboard data
-        }
-
-        /**
-         * Downloads the leaderboard data as a CSV file.
-         */
-        function downloadLeaderboard() {
-            if (!leaderboardBody.rows.length || leaderboardBody.rows[0].cells[0].textContent === "No scores yet! Be the first!") {
-                window.showCustomModal("No Data", "Leaderboard is empty. Play a game first!");
-                return;
-            }
-
-            let csv = 'Rank,Name,Score\n';
-            for (let i = 0; i < leaderboardBody.rows.length; i++) {
-                const row = leaderboardBody.rows[i];
-                const rank = row.cells[0].textContent;
-                const name = row.cells[1].textContent;
-                const score = row.cells[2].textContent;
-                csv += `${rank},"${name}",${score}\n`;
-            }
-
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            if (link.download !== undefined) { // Feature detection for download attribute
-                const url = URL.createObjectURL(blob);
-                link.setAttribute('href', url);
-                link.setAttribute('download', 'ielts_leaderboard.csv');
-                link.style.visibility = 'hidden';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } else {
-                window.showCustomModal("Download Error", "Your browser does not support direct CSV download.");
+                 if (e.code === 'not-found') {
+                    const initialStats = {
+                        gamesPlayed: 1,
+                        totalCorrect: correctAnswersThisGame,
+                        totalAnswered: questionsAnsweredThisGame,
+                        highestScore: currentScore
+                    };
+                    const fullDocData = { timed: {}, untimed: {} };
+                    fullDocData[gameMode] = initialStats;
+                    await retryFirebaseCall(() => window.setDoc(userStatsDocRef, fullDocData));
+                    userStats[gameMode] = initialStats;
+                 } else {
+                    console.error("Error updating stats:", e);
+                 }
             }
         }
 
+        function listenForUserStatsChanges() {
+            if (!window.firebaseInitialized || !window.currentUserId) return;
+            const userStatsDocRef = window.doc(window.db, `artifacts/${window.appId}/users/${window.currentUserId}/userStats/statsDoc`);
+            
+            window.onSnapshot(userStatsDocRef, async (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    
+                    const timedStats = data.timed || {};
+                    const untimedStats = data.untimed || {};
+                    
+                    userStats.timed = { ...userStats.timed, ...timedStats };
+                    userStats.untimed = { ...userStats.untimed, ...untimedStats };
 
-        // --- Event Listeners ---
+                }
+                isUserStatsLoaded = true;
+                checkAndRenderData();
+            }, (error) => {
+                console.error("Error listening for user stats:", error);
+            });
+        }
 
-        playSoloButton.addEventListener('click', startGame);
-        showLeaderboardMainMenuButton.addEventListener('click', showLeaderboard);
-        toggleMusicButton.addEventListener('click', () => {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play().catch(e => console.error("Error playing music:", e));
-                isMusicPlaying = true;
-                toggleMusicButton.textContent = 'Toggle Music';
+        function updateStatsDisplay() {
+            if (!isUserStatsLoaded || !isLeaderboardLoaded) return;
+
+            const stats = userStats[currentStatsMode];
+            const leaderboardData = currentStatsMode === 'timed' ? timedLeaderboardData : untimedLeaderboardData;
+            
+            gamesPlayedStat.textContent = stats.gamesPlayed;
+            highestScoreStat.textContent = stats.highestScore;
+
+            if (stats.totalAnswered > 0) {
+                const accuracy = (stats.totalCorrect / stats.totalAnswered) * 100;
+                accuracyStat.textContent = `${accuracy.toFixed(1)}%`;
             } else {
-                backgroundMusic.pause();
-                isMusicPlaying = false;
-                toggleMusicButton.textContent = 'Toggle Music';
+                accuracyStat.textContent = "N/A";
             }
-        });
-
-        saveScoreButton.addEventListener('click', saveScore);
-        playAgainButton.addEventListener('click', startGame);
-        mainMenuFromGameOverButton.addEventListener('click', () => showScreen(mainMenuScreen));
-
-        downloadLeaderboardButton.addEventListener('click', downloadLeaderboard);
-        mainMenuFromLeaderboardButton.addEventListener('click', () => showScreen(mainMenuScreen));
-
-        modalCloseButton.addEventListener('click', hideCustomModal);
-        customModalOverlay.addEventListener('click', (event) => {
-            if (event.target === customModalOverlay) {
-                hideCustomModal();
-            }
-        });
-
-        // Initialize music state on load
-        window.addEventListener('load', () => {
-            if (isMusicPlaying) {
-                backgroundMusic.play().catch(e => {
-                    console.warn("Autoplay was prevented. User interaction required to play music.", e);
-                    // Inform user they might need to click to start music
-                    toggleMusicButton.textContent = 'Toggle Music'; // No brackets here either
-                });
-            }
-        });
-
-        // Add keyboard navigation for choice buttons
-        document.addEventListener('keydown', (event) => {
-            if (gameScreen.classList.contains('active')) {
-                const choiceButtons = Array.from(choicesContainer.querySelectorAll('.choice-button'));
-                const focusedButtonIndex = choiceButtons.findIndex(button => document.activeElement === button);
-
-                if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-                    event.preventDefault(); // Prevent page scrolling
-                    if (focusedButtonIndex === -1 || focusedButtonIndex === choiceButtons.length - 1) {
-                        choiceButtons[0].focus();
-                    } else {
-                        choiceButtons[focusedButtonIndex + 1].focus();
-                    }
-                } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-                    event.preventDefault(); // Prevent page scrolling
-                    if (focusedButtonIndex === -1 || focusedButtonIndex === 0) {
-                        choiceButtons[choiceButtons.length - 1].focus();
-                    } else {
-                        choiceButtons[focusedButtonIndex - 1].focus();
-                    }
-                } else if (event.key === 'Enter' && focusedButtonIndex !== -1) {
-                    event.preventDefault();
-                    choiceButtons[focusedButtonIndex].click();
+            
+            let rank = "N/A";
+            const userScores = leaderboardData.filter(s => s.userId === window.currentUserId);
+            if (userScores.length > 0) {
+                const highestUserScore = userScores.reduce((max, score) => max.score > score.score ? max : score);
+                const rankIndex = leaderboardData.indexOf(highestUserScore);
+                if (rankIndex !== -1) {
+                    rank = rankIndex + 1;
                 }
             }
+            highestRankStat.textContent = rank;
+            
+            statsLoading.classList.add('hidden');
+            statsContent.classList.remove('hidden');
+        }
+
+        function showStatsScreen() {
+            showScreen('stats-screen');
+            if (isUserStatsLoaded && isLeaderboardLoaded) {
+                updateStatsDisplay();
+            } else {
+                statsLoading.classList.remove('hidden');
+                statsContent.classList.add('hidden');
+            }
+        }
+
+        function updateHighestScorerDisplay() {
+            if (timedLeaderboardData.length > 0) {
+                const topScorer = timedLeaderboardData[0];
+                highestScorerOverallDisplay.innerHTML = `Top Rapid Scorer: <span class="text-primary-bright">${topScorer.name}</span> (${topScorer.score} pts)`;
+            } else {
+                highestScorerOverallDisplay.textContent = `No Rapid scores yet!`;
+            }
+            if (untimedLeaderboardData.length > 0) {
+                const topScorer = untimedLeaderboardData[0];
+                untimedHighestScorerDisplay.innerHTML = `Top Endless Scorer: <span class="text-red-400">${topScorer.name}</span> (${topScorer.score} pts)`;
+            } else {
+                untimedHighestScorerDisplay.textContent = `No Endless scores yet!`;
+            }
+        }
+
+        function toggleMusic() {
+            if (musicPlaying) {
+                backgroundMusic.pause();
+                toggleMusicButton.textContent = "Play Music";
+            } else {
+                backgroundMusic.volume = 0.5;
+                backgroundMusic.play().then(() => toggleMusicButton.textContent = "Pause Music").catch(e => {});
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        function initAnimatedBackground() {
+            const ctx = backgroundCanvas.getContext('2d');
+            let stars = [];
+            let cats = [];
+            let numStars = 200;
+
+            const catPixels = [
+                [0,0,1,0,0,1,0,0,0,0,0,0,0],
+                [0,1,1,1,1,1,1,0,0,0,1,1,0],
+                [0,1,0,1,0,1,1,0,0,1,0,1,0],
+                [0,1,1,1,1,1,1,0,1,0,0,1,0],
+                [0,0,1,1,1,1,1,1,0,0,0,0,0],
+                [0,0,0,1,1,1,1,0,0,0,0,0,0],
+                [0,0,1,1,0,1,1,0,0,0,0,0,0],
+                [0,1,1,0,0,0,1,1,0,0,0,0,0]
+            ];
+            const pixelSize = 4;
+
+
+            function setStarCount() {
+                if (window.innerWidth < 480) numStars = 50;
+                else if (window.innerWidth < 768) numStars = 100;
+                else numStars = 200;
+            }
+
+            function resizeCanvas() {
+                backgroundCanvas.width = window.innerWidth;
+                backgroundCanvas.height = window.innerHeight;
+            }
+
+            function createStars() {
+                stars = [];
+                for (let i = 0; i < numStars; i++) {
+                    stars.push({
+                        x: Math.random() * backgroundCanvas.width,
+                        y: Math.random() * backgroundCanvas.height,
+                        radius: Math.random() * 1.5 + 0.5,
+                        vx: Math.random() * 0.2 - 0.1,
+                        vy: Math.random() * 0.2 - 0.1,
+                        alpha: Math.random() * 0.5 + 0.5
+                    });
+                }
+            }
+             function createCats() {
+                cats = [];
+                const numCats = 2;
+                for (let i = 0; i < numCats; i++) {
+                    cats.push({
+                        x: Math.random() * backgroundCanvas.width,
+                        y: Math.random() * backgroundCanvas.height,
+                        vx: Math.random() * 0.5 - 0.25,
+                        vy: Math.random() * 0.5 - 0.25,
+                    });
+                }
+            }
+
+
+            function drawStars() {
+                stars.forEach(star => {
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(0, 168, 255, ${star.alpha})`;
+                    ctx.fill();
+                });
+            }
+            
+            function drawCats() {
+                ctx.fillStyle = 'rgba(0, 168, 255, 0.7)';
+                cats.forEach(cat => {
+                    for (let y = 0; y < catPixels.length; y++) {
+                        for (let x = 0; x < catPixels[y].length; x++) {
+                            if (catPixels[y][x] === 1) {
+                                ctx.fillRect(cat.x + x * pixelSize, cat.y + y * pixelSize, pixelSize, pixelSize);
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updateStars() {
+                stars.forEach(star => {
+                    star.x += star.vx;
+                    star.y += star.vy;
+                    if (star.x < 0 || star.x > backgroundCanvas.width) star.vx *= -1;
+                    if (star.y < 0 || star.y > backgroundCanvas.height) star.vy *= -1;
+                });
+            }
+            
+             function updateCats() {
+                const catWidth = catPixels[0].length * pixelSize;
+                const catHeight = catPixels.length * pixelSize;
+                cats.forEach(cat => {
+                    cat.x += cat.vx;
+                    cat.y += cat.vy;
+                    if (cat.x < 0 || cat.x + catWidth > backgroundCanvas.width) cat.vx *= -1;
+                    if (cat.y < 0 || cat.y + catHeight > backgroundCanvas.height) cat.vy *= -1;
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+                
+                updateStars();
+                drawStars();
+                
+                updateCats();
+                if (mainMenuScreen.classList.contains('active')) {
+                    drawCats();
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                setStarCount();
+                createStars();
+                createCats();
+            });
+            
+            resizeCanvas();
+            setStarCount();
+            createStars();
+            createCats();
+            animate();
+        }
+        
+        function exitToMainMenu() {
+            if (gameTimer) {
+                clearInterval(gameTimer);
+                gameTimer = null;
+            }
+            showScreen('main-menu');
+        }
+
+        window.onload = function() {
+            toggleMusic(); // Attempt to play music on load
+            showScreen('main-menu');
+            initAnimatedBackground();
+        };
+
+        playGameButton.addEventListener('click', () => showScreen('game-mode-screen'));
+        timedModeButton.addEventListener('click', () => startGame('timed'));
+        untimedModeButton.addEventListener('click', () => startGame('untimed'));
+        backToMainMenuButton.addEventListener('click', () => showScreen('main-menu'));
+        showLeaderboardMainMenuButton.addEventListener('click', () => displayGlobalLeaderboard());
+        showStatsButton.addEventListener('click', showStatsScreen);
+        toggleMusicButton.addEventListener('click', toggleMusic);
+        saveScoreButton.addEventListener('click', saveScore);
+        playAgainButton.addEventListener('click', () => startGame(gameMode));
+        mainMenuFromGameOverButton.addEventListener('click', () => showScreen('main-menu'));
+        prevPageButton.addEventListener('click', goToPreviousPage);
+        nextPageButton.addEventListener('click', goToNextPage);
+        
+        mainMenuFromStatsButton.addEventListener('click', () => showScreen('main-menu'));
+        mainMenuFromLeaderboardButton.addEventListener('click', () => showScreen('main-menu'));
+        
+        exitGameButton.addEventListener('click', () => {
+             showCustomModal(
+                "Exit Game?", 
+                "Return to main menu? Progress will be lost.", 
+                exitToMainMenu, 
+                true
+            );
         });
 
+        showTimedLeaderboardButton.addEventListener('click', () => {
+            currentLeaderboardMode = 'timed';
+            leaderboardTitle.textContent = "Rapid Leaderboard";
+            showTimedLeaderboardButton.classList.add('active');
+            showUntimedLeaderboardButton.classList.remove('active');
+            currentPage = 1;
+            renderLeaderboardPage();
+        });
+
+        showUntimedLeaderboardButton.addEventListener('click', () => {
+            currentLeaderboardMode = 'untimed';
+            leaderboardTitle.textContent = "Endless Leaderboard";
+            showUntimedLeaderboardButton.classList.add('active');
+            showTimedLeaderboardButton.classList.remove('active');
+            currentPage = 1;
+            renderLeaderboardPage();
+        });
+
+        showTimedStatsButton.addEventListener('click', () => {
+            currentStatsMode = 'timed';
+            showTimedStatsButton.classList.add('active');
+            showUntimedStatsButton.classList.remove('active');
+            updateStatsDisplay();
+        });
+
+        showUntimedStatsButton.addEventListener('click', () => {
+            currentStatsMode = 'untimed';
+            showUntimedStatsButton.classList.add('active');
+            showTimedStatsButton.classList.remove('active');
+            updateStatsDisplay();
+        });
     </script>
 </body>
 </html>
+
