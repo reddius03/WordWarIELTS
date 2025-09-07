@@ -1027,7 +1027,7 @@
                 document.querySelectorAll('.choice-button').forEach(btn => btn.disabled = false);
 
                 // Updated Game Over Condition
-                const gameOverCondition = (gameMode === 'untimed' && wrongAttempts >= 3) || (gameMode === 'timed' && timeLeft <= 0);
+                const gameOverCondition = (wrongAttempts >= 3) || (gameMode === 'timed' && timeLeft <= 0);
 
                 if (!isCorrect) {
                     isTimerPausedForModal = true;
@@ -1547,4 +1547,5 @@
     </script>
 </body>
 </html>
+
 
