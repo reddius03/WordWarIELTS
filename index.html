@@ -1027,7 +1027,7 @@
                 document.querySelectorAll('.choice-button').forEach(btn => btn.disabled = false);
 
                 // Updated Game Over Condition
-                const gameOverCondition = (gameMode === 'untimed' && consecutiveWrongAttempts >= 3) || (gameMode === 'timed' && timeLeft <= 0);
+                const gameOverCondition = (gameMode === 'untimed' && wrongAttempts >= 3) || (gameMode === 'timed' && timeLeft <= 0);
 
                 if (!isCorrect) {
                     isTimerPausedForModal = true;
@@ -1101,8 +1101,8 @@
                     userId: window.currentUserId,
                     mode: gameMode // Save the game mode
                 }));
+                latestSubmittedDocIdForHighlight = docRef.id; // Set global highlight ID
                 showCustomModal("Score Saved!", "Your score has been added to the leaderboard!", () => {
-                    latestSubmittedDocIdForHighlight = docRef.id; // Set global highlight ID
                     displayGlobalLeaderboard(true); // Navigate to leaderboard
                 });
             } catch (e) {
@@ -1137,7 +1137,7 @@
                     row.classList.add('bg-blue-900', 'text-blue-100');
                 }
 
-                if (latestSubmittedDocId && entry.id === latestSubmittedDocId) {
+                if (latestSubmittedDocIdForHighlight && entry.id === latestSubmittedDocIdForHighlight) {
                     row.classList.add('recent-score-highlight');
                 }
 
@@ -1186,9 +1186,9 @@
 
                 renderLeaderboardPage(latestSubmittedDocIdForHighlight);
                 
-                if (latestSubmittedDocIdForHighlight) {
-                    latestSubmittedDocIdForHighlight = null;
-                }
+                // if (latestSubmittedDocIdForHighlight) {
+                //     latestSubmittedDocIdForHighlight = null;
+                // }
 
             }, (error) => {
                 console.error("Error fetching leaderboard:", error);
